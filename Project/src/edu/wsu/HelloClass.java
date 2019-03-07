@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/hello")
 public class HelloClass extends HttpServlet {
-    public HelloClass() {
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
