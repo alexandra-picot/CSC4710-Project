@@ -13,6 +13,22 @@ public class CreateDb extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con=DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/sampledb","john","pass1234");
+            //here sonoo is database name, root is username and password
+            Statement stmt=con.createStatement();
+//            ResultSet rs=stmt.executeQuery("select * from toto");
+            stmt.execute("create table IF NOT EXISTS titi (id integer, email char(50), PRIMARY KEY (id))");
+            stmt.executeUpdate("insert into titi VALUES (1, 'titi@titi.com')");
+            /*while(rs.next())
+                System.out.println(rs.getInt(1)+"  "+rs.getString(2));*/
+            con.close();
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+
         resp.setContentType("text/html");
         PrintWriter writer = resp.getWriter();
         writer.println("<html>");
