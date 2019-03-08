@@ -18,6 +18,16 @@ public class CreateDb extends HttpServlet {
 
     private Connection _dbConnection = null;
 
+    private void dropTables() throws Exception {
+        Statement createTable = _dbConnection.createStatement();
+
+        createTable.execute("DROP TABLE IF EXISTS paper_authors");
+        createTable.execute("DROP TABLE IF EXISTS reports");
+        createTable.execute("DROP TABLE IF EXISTS authors");
+        createTable.execute("DROP TABLE IF EXISTS papers");
+        createTable.execute("DROP TABLE IF EXISTS pc_members");
+    }
+
     private void createAuthorsTable() throws Exception {
         Statement createTable = _dbConnection.createStatement();
 
@@ -202,6 +212,7 @@ public class CreateDb extends HttpServlet {
                     USER,
                     PASSWORD);
 
+            dropTables();
             createAuthorsTable();
             createPapersTable();
             createPaperAuthorsJunctionTable();
