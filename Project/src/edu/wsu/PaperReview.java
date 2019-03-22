@@ -1,6 +1,5 @@
 package edu.wsu;
 
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
-
 
 @WebServlet("/paperlist")
 public class PaperReview extends HttpServlet {
@@ -33,7 +31,7 @@ public class PaperReview extends HttpServlet {
 
             Statement statement = dbConnection.createStatement();
 
-            list = statement.executeQuery( " SELECT *FROM papers"
+            list = statement.executeQuery( " SELECT * FROM papers"
             );
 
             resp.setContentType("text/html");
@@ -60,7 +58,7 @@ public class PaperReview extends HttpServlet {
                     String source = list.getString("pdf");
                     writer.println("<tr style='border: 1px solid black'>");
                     writer.println("<th style='border: 1px solid black'> " + paperId + "</th>");
-                    writer.println("<th style='border: 1px solid black'> " + header +"</th>");
+                    writer.println("<th style='border: 1px solid black'> <a href='index.html'>" + header +"</a></th>");
                     writer.println("<th style='border: 1px solid black'> " + details + "</th>");
                     writer.println("<th style='border: 1px solid black'> " + source +"</th>");
                     writer.println("</tr>");
@@ -76,22 +74,5 @@ public class PaperReview extends HttpServlet {
         } catch(Exception e) {
             System.out.println(e);
         }
-
-        /*
-        writer.println("<table border=\"0\">");
-        writer.println("<tr>");
-        writer.println("<td>");
-        writer.println("<img src=\"images/tomcat.gif\">");
-        writer.println("</td>");
-        writer.println("<td>");
-        writer.println("<h1>Sample Application Servlet</h1>");
-        writer.println("This is the output of a servlet that is part of");
-        writer.println("the Hello, World application.");
-        writer.println("</td>");
-        writer.println("</tr>");
-        writer.println("</table>");
-        */
-
-
     }
 }
