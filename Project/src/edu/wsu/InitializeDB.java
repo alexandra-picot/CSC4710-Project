@@ -8,18 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 
-@WebServlet("/createdb")
-public class CreateDb extends HttpServlet {
+@WebServlet("/initialize-db")
+public class InitializeDB extends HttpServlet {
 
-    private String SQL_DRIVER = "com.mysql.jdbc.Driver";
-    private String DATABASE_URL = "jdbc:mysql://localhost:3306/sampledb";
-    private String USER = "john";
-    private String PASSWORD = "pass1234";
-
-    private Connection _dbConnection = null;
+    private DBConnection _dbConnection = null;
 
     private void dropTables() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("DROP TABLE IF EXISTS paper_authors");
         createTable.execute("DROP TABLE IF EXISTS reports");
@@ -29,7 +24,7 @@ public class CreateDb extends HttpServlet {
     }
 
     private void createAuthorsTable() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS authors (" +
                 "email VARCHAR(255) NOT NULL," +
@@ -61,7 +56,7 @@ public class CreateDb extends HttpServlet {
     }
 
     private void createPapersTable() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS papers (" +
                 "paperid INTEGER NOT NULL AUTO_INCREMENT," +
@@ -109,7 +104,7 @@ public class CreateDb extends HttpServlet {
     }
 
     private void createPaperAuthorsJunctionTable() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS paper_authors (" +
                 "paper_id INTEGER NOT NULL," +
@@ -153,7 +148,7 @@ public class CreateDb extends HttpServlet {
     }
 
     private void createPCMembersTable() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS pc_members (" +
                 "email VARCHAR(255) NOT NULL," +
@@ -179,7 +174,7 @@ public class CreateDb extends HttpServlet {
     }
 
     private void createReportsTable() throws Exception {
-        Statement createTable = _dbConnection.createStatement();
+        Statement createTable = _dbConnection.getConnection().createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS reports (" +
                 "reportid INTEGER NOT NULL AUTO_INCREMENT," +
@@ -204,27 +199,23 @@ public class CreateDb extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try{
-            Class.forName(SQL_DRIVER);
+        _dbConnection = new DBConnection();
 
-            _dbConnection = DriverManager.getConnection(
-                    DATABASE_URL,
-                    USER,
-                    PASSWORD);
-
+        try {
             dropTables();
             createAuthorsTable();
             createPapersTable();
             createPaperAuthorsJunctionTable();
             createPCMembersTable();
             createReportsTable();
-            _dbConnection.close();
         } catch(Exception e) {
             System.out.println(e);
         }
 
+        _dbConnection.closeConnection();
+
         req.setAttribute("test", "I'm a test attribute from the Java class CreateDB");
-        RequestDispatcher view = req.getRequestDispatcher("/createDB.jsp");
+        RequestDispatcher view = req.getRequestDispatcher("/initialize-db.jsp");
         view.forward(req, resp);
     }
 }
