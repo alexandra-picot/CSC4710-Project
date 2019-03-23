@@ -214,7 +214,6 @@ public class InitializeDB extends HttpServlet {
 
         _dbConnection.closeConnection();
 
-        req.setAttribute("test", "I'm a test attribute from the Java class CreateDB");
         RequestDispatcher view = req.getRequestDispatcher("/initialize-db.jsp");
         view.forward(req, resp);
     }
