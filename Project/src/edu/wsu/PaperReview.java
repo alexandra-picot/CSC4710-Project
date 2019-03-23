@@ -58,7 +58,7 @@ public class PaperReview extends HttpServlet {
                     String source = list.getString("pdf");
                     writer.println("<tr style='border: 1px solid black'>");
                     writer.println("<th style='border: 1px solid black'> " + paperId + "</th>");
-                    writer.println("<th style='border: 1px solid black'> <a href='index.html'>" + header +"</a></th>");
+                    writer.println("<th style='border: 1px solid black'> <a href='paperdetails/" + paperId + "'>" + header +"</a></th>");
                     writer.println("<th style='border: 1px solid black'> " + details + "</th>");
                     writer.println("<th style='border: 1px solid black'> " + source +"</th>");
                     writer.println("</tr>");
@@ -71,7 +71,8 @@ public class PaperReview extends HttpServlet {
 
             writer.println("</html>");
             dbConnection.close();
-        } catch(Exception e) {
+        }
+        catch(Exception e) {
             System.out.println(e);
         }
     }
