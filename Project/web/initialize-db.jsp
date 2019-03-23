@@ -9,5 +9,6 @@
     ${test}
     <p>
         <a href="index.html">Go back to home</a>
+    </p>
 </body>
 </html>
