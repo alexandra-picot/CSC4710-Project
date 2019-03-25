@@ -20,6 +20,8 @@ public class PaperDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ResultSet pcmembers = null;
+
+
         ResultSet list = null;
 
         try {
@@ -52,10 +54,31 @@ public class PaperDetails extends HttpServlet {
                 String name = pcmembers.getString("name");
 
                 writer.println("<option value = ' " + email + "'> " + name + "</option>");
-
-
             }
             writer.println("</select>");
+
+
+            writer.println("<select>");
+            while (pcmembers.next())
+            {
+                String email = pcmembers.getString("email");
+                String name = pcmembers.getString("name");
+
+                writer.println("<option value = ' " + email + "'> " + name + "</option>");
+            }
+            writer.println("</select>");
+
+
+            writer.println("<select>");
+            while (pcmembers.next())
+            {
+                String email = pcmembers.getString("email");
+                String name = pcmembers.getString("name");
+
+                writer.println("<option value = ' " + email + "'> " + name + "</option>");
+            }
+            writer.println("</select>");
+
 
 
 
@@ -63,8 +86,10 @@ public class PaperDetails extends HttpServlet {
 
             writer.println("</html>");
             dbConnection.close();
+        }
 
-        } catch (Exception e) {
+        catch (Exception e)
+        {
             System.out.println(e);
         }
     }
