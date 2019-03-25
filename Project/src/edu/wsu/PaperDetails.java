@@ -1,5 +1,6 @@
 package edu.wsu;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet("/paperdetails/*")
 public class PaperDetails extends HttpServlet {
@@ -19,53 +23,44 @@ public class PaperDetails extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ResultSet pcmembers = null;
+        DBConnection dbConnection = new DBConnection();
+
+        Map<String, String> paperDetails = new HashMap<>();
+        ArrayList<String> pcMembers = new ArrayList<>();
+
+        String[] pathInfo = req.getPathInfo().split("/");
+        String paperId = pathInfo[1];
+
         ResultSet list = null;
 
         try {
-            Class.forName(SQL_DRIVER);
+            Statement statementPcMembers = dbConnection.getConnection().createStatement();
+            ResultSet rsPcMembers = statementPcMembers.executeQuery(" SELECT * FROM pc_members");
 
-            Connection dbConnection = DriverManager.getConnection(
-                    DATABASE_URL,
-                    USER,
-                    PASSWORD);
-
-            Statement statement = dbConnection.createStatement();
-
-//            list = statement.executeQuery(" SELECT * FROM papers"
-//            );
-
-            pcmembers = statement.executeQuery(" SELECT * FROM pc_members"
-            );
-
-            PrintWriter writer = resp.getWriter();
-            writer.println("<html>");
-            writer.println("<head>");
-            writer.println("<title>Review Page</title>");
-            writer.println("</head>");
-            writer.println("<body bgcolor=white>");
-
-            writer.println("<select>");
-            while (pcmembers.next())
-            {
-                String email = pcmembers.getString("email");
-                String name = pcmembers.getString("name");
-
-                writer.println("<option value = ' " + email + "'> " + name + "</option>");
-
-
+            while (rsPcMembers.next()) {
+                pcMembers.add(rsPcMembers.getString("email"));
             }
-            writer.println("</select>");
-
-
-
-            writer.println("</body>");
-
-            writer.println("</html>");
-            dbConnection.close();
-
+//
+//
+//            Statement statementPaper = dbConnection.getConnection().createStatement();
+//            ResultSet rsPaper = statementPaper.executeQuery("SELECT * FROM papers WHERE paperid = $(paperId)");
+//
+//            if (rsPaper.first()) {
+//                paperDetails.put("paperid", String.valueOf(rsPaper.getInt("paperid")));
+//                paperDetails.put("title", rsPaper.getString("title"));
+//                paperDetails.put("abstract", rsPaper.getString("abstract"));
+//                paperDetails.put("pdf", rsPaper.getString("pdf"));
+//
+//            }
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        dbConnection.closeConnection();
+
+        req.setAttribute("paperDetails", paperDetails);
+        req.setAttribute("pcMembers", pcMembers);
+        RequestDispatcher view = req.getRequestDispatcher("/paper-details.jsp");
+        view.forward(req, resp);
     }
 }
