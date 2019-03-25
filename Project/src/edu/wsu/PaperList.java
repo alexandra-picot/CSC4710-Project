@@ -41,7 +41,6 @@ public class PaperList extends HttpServlet {
         dbConnection.closeConnection();
 
         req.setAttribute("paperList", paperList);
-        RequestDispatcher view = req.getRequestDispatcher("/paper-list.jsp");
-        view.forward(req, resp);
+        req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
     }
 }

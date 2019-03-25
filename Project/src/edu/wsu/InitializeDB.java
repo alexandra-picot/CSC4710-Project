@@ -214,7 +214,6 @@ public class InitializeDB extends HttpServlet {
 
         _dbConnection.closeConnection();
 
-        RequestDispatcher view = req.getRequestDispatcher("/initialize-db.jsp");
-        view.forward(req, resp);
+        req.getRequestDispatcher("/initialize-db.jsp").forward(req, resp);
     }
 }

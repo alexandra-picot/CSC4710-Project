@@ -12,9 +12,10 @@ To change this template use File | Settings | File Templates.
 <html>
 <head>
     <title>Paper List</title>
-    <link rel="stylesheet" type="text/css" href="paperlist.css">
+    <link rel="stylesheet" type="text/css" href="Stylesheet/paperlist.css">
 </head>
 <body>
+<h1>List of papers:</h1>
 <p>
     <a href="index.html">Go back to home</a>
 </p>
@@ -34,7 +35,7 @@ To change this template use File | Settings | File Templates.
                     for (Map paper: list) {
                 %>
                 <tr>
-                    <th><a href="paperdetails/<%= paper.get("paperid") %>"><%= paper.get("title") %></a> </th>
+                    <th><a href="${pageContext.request.contextPath}/paperdetails/<%= paper.get("paperid") %>"><%= paper.get("title") %></a> </th>
                     <th><%= paper.get("abstract") %></th>
                 </tr>
                 <%
