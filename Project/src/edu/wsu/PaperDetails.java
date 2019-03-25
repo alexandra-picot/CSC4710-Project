@@ -31,8 +31,6 @@ public class PaperDetails extends HttpServlet {
         String[] pathInfo = req.getPathInfo().split("/");
         String paperId = pathInfo[1];
 
-        ResultSet list = null;
-
         try {
             Statement statementPcMembers = dbConnection.getConnection().createStatement();
             ResultSet rsPcMembers = statementPcMembers.executeQuery(" SELECT * FROM pc_members");
@@ -53,6 +51,29 @@ public class PaperDetails extends HttpServlet {
 //
 //            }
         } catch (Exception e) {
+//=======
+//            writer.println("<select>");
+//            while (pcmembers.next())
+//            {
+//                String email = pcmembers.getString("email");
+//                String name = pcmembers.getString("name");
+//
+//                writer.println("<option value = ' " + email + "'> " + name + "</option>");
+//            }
+//            writer.println("</select>");
+//
+//
+//
+//
+//            writer.println("</body>");
+//
+//            writer.println("</html>");
+//            dbConnection.close();
+//        }
+//
+//        catch (Exception e)
+//        {
+//>>>>>>> 504368a5836cbbc772d799a52cccdc2211e869c8
             System.out.println(e);
         }
 
