@@ -21,7 +21,7 @@ public class SavePaperReviewers extends HttpServlet {
         DBConnection dbConnection = new DBConnection();
 
         try {
-            Statement statement = dbConnection.getConnection().createStatement();
+            Statement statement = dbConnection.createStatement();
 
             statement.executeUpdate("INSERT INTO reports (paper_id, pc_member_id) VALUES ('" + paperId + "', '" + firstReviewer + "'), " +
                     "('" + paperId + "', '" + secondReviewer + "'), " +

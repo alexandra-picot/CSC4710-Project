@@ -27,6 +27,11 @@
 
     <br><br>
 
+    <%
+        ArrayList<String> pcMembers = (ArrayList) request.getAttribute("pcMembers");
+        ArrayList<String> paperReviewers = (ArrayList) request.getAttribute("paperReviewers");
+        if (paperReviewers.isEmpty()) {
+            %>
     <form name="assignReviewers" action="${pageContext.request.contextPath}/savepaperreviewers" method="post" id="assignReviewers" onsubmit="return validateForm();">
         <h2>Paper reviewers:</h2>
 
@@ -35,8 +40,6 @@
         <select form="assignReviewers" name="firstReviewer" id="firstReviewer">
             <option value=""></option>
             <%
-                ArrayList<String> pcMembers = (ArrayList) request.getAttribute("pcMembers");
-
                 for (String member: pcMembers) {
             %>
             <option value=<%= member %>><%= member %></option>
@@ -83,5 +86,22 @@
         <br><br>
         <button type="submit"><strong>Save paper reviewers</strong></button>
     </form>
+    <%
+        } else {
+            %>
+    <h3>Reviewers list:</h3>
+    <ul>
+    <%
+            for (String reviewer: paperReviewers) {
+                %>
+        <li><%= reviewer %></li>
+    <%
+            }
+            %>
+    </ul>
+            <%
+        }
+    %>
+
 </body>
 </html>

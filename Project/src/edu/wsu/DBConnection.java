@@ -2,6 +2,8 @@ package edu.wsu;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBConnection {
 
@@ -29,6 +31,10 @@ public class DBConnection {
 
     Connection getConnection() {
         return _dbConnection;
+    }
+
+    Statement createStatement() throws SQLException {
+        return _dbConnection.createStatement();
     }
 
     void closeConnection() {
