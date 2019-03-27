@@ -41,8 +41,9 @@
     </div>
 </nav>
 
-
-<jsp:doBody/>
+<div class="container-fluid mt-2">
+    <jsp:doBody/>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

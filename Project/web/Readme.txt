@@ -12,6 +12,11 @@ Vincent:    - Setup of both our development environments
 		    - Design of the ER diagram, Files: SQLTables.png, projectP1.png
 		    - Initialization of the database (Creation of the tables and population of the tables) (SQL statements and Java/Html code) Files: InitializeDB.java, initialize-db.jsp
 		    - Creation of the class DBConnection, global java class to connect to the database
+		    - Creation of the base_site.tag to have common site template
+		    - Creation of the template with boostrap
+		    - Conversion of all html and jsp files into jsp files with the base_site tag
+		    - Conversion and all Java scriptlet in jsp files into JSTL
+		    - Save reviewers into the database + form validation in JavaScript on paper-details.jsp
 
 
 Mrinnal and Vincent:
