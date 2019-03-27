@@ -32,6 +32,6 @@ public class SavePaperReviewers extends HttpServlet {
 
         dbConnection.closeConnection();
 
-        req.getRequestDispatcher("/save-paper-reviewers.html").forward(req, resp);
+        req.getRequestDispatcher("/save-paper-reviewers.jsp").forward(req, resp);
     }
 }

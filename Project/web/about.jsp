@@ -11,11 +11,14 @@
 <t:base_site>
 
     <jsp:attribute name="page_title">
-        Initialize DB
+        About
     </jsp:attribute>
 
     <jsp:body>
-        <h1>You've created the database's tables and filled them with data</h1>
+        <p>
+            This project has been created as part of the CSC4710 class at WSU. <br/>
+            Authors of this project are Vincent PICOT and Mrinnal Muralidhar
+        </p>
     </jsp:body>
 
 </t:base_site>
