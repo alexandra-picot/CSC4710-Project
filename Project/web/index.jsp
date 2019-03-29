@@ -15,18 +15,18 @@
     </jsp:attribute>
 
     <jsp:body>
-        <h2>Please, Read the text below</h2>
+        <h2>Important note:</h2>
         <p>
-            Before using anything else on this application, you need to use the 'Initialize Database' button below.</br>
+            Before using anything else on this application, you need to use the '<strong>Initialize Database</strong>' button below.</br>
             If you don't use this button, all the other pages will show an error message.
         </p>
         <form action="initialize-db">
-            <button type="submit">Initialize Database</button>
+            <button type="submit" class="btn btn-primary">Initialize Database</button>
         </form>
         <p>
         <p>
         <form action="paper-list">
-            <button type="submit">Show Paper List</button>
+            <button type="submit" class="btn btn-primary">Show Paper List</button>
         </form>
     </jsp:body>
 </t:base_site>

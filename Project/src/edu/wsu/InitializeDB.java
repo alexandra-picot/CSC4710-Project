@@ -28,7 +28,8 @@ public class InitializeDB extends HttpServlet {
 
         createTable.execute("CREATE TABLE IF NOT EXISTS authors (" +
                 "email VARCHAR(255) NOT NULL," +
-                "name VARCHAR(150) NOT NULL," +
+                "first_name VARCHAR(100) NOT NULL," +
+                "last_name VARCHAR(100) NOT NULL," +
                 "affiliation VARCHAR(100) NOT NULL," +
                 "PRIMARY KEY (email)" +
                 ")"
@@ -37,21 +38,21 @@ public class InitializeDB extends HttpServlet {
         createTable.executeUpdate("DELETE FROM authors");
 
         createTable.executeUpdate("INSERT INTO authors VALUES " +
-                "('jean.prevers@gmail.com', 'Jean Prevers', 'Computer Science')," +
-                "('victor.hugo@gmail.com', 'Victor Hugo', 'Computer Science')," +
-                "('christopher.paolini@gmail.com', 'Christopher Paolini', 'Computer Science')," +
-                "('florent.musse@gmail.com', 'florent Musse', 'Computer Science')," +
-                "('jean-pierre.dupont@gmail.com', 'Jean-Pierre Dupont', 'Computer Science')," +
-                "('jonathan.jean@gmail.com', 'Jonathan Jean', 'Computer Science')," +
-                "('corentin.grandmaire@gmail.com', 'Corentin Grandmaire', 'Computer Science')," +
-                "('steve.martins@gmail.com', 'Steve Martins', 'Computer Science')," +
-                "('nicolas.sarcozy@gmail.com', 'Nicolas Sarcozy', 'Computer Science')," +
-                "('francois.hollande@gmail.com', 'François Hollande', 'Computer Science')," +
-                "('jacques.chirac@gmail.com', 'Jacques Chirac', 'Computer Science')," +
-                "('claude.francois@gmail.com', 'Claude François', 'Computer Science')," +
-                "('jean-jacques.goldman@gmail.com', 'Jean-Jacques Goldman', 'Computer Science')," +
-                "('seongwook.chae@gmail.com', 'Seongwook Chae', 'Computer Science')," +
-                "('florian.oliverez@gmail.com', 'Florian Oliverez', 'Computer Science')"
+                "('jean.prevers@gmail.com', 'Jean', 'Prevers', 'Computer Science')," +
+                "('victor.hugo@gmail.com', 'Victor', 'Hugo', 'Computer Science')," +
+                "('christopher.paolini@gmail.com', 'Christopher', 'Paolini', 'Computer Science')," +
+                "('florent.musse@gmail.com', 'Florent', 'Musse', 'Computer Science')," +
+                "('jean-pierre.dupont@gmail.com', 'Jean-Pierre', 'Dupont', 'Computer Science')," +
+                "('jonathan.jean@gmail.com', 'Jonathan', 'Jean', 'Computer Science')," +
+                "('corentin.grandmaire@gmail.com', 'Corentin', 'Grandmaire', 'Computer Science')," +
+                "('steve.martins@gmail.com', 'Steve', 'Martins', 'Computer Science')," +
+                "('nicolas.sarcozy@gmail.com', 'Nicolas', 'Sarcozy', 'Computer Science')," +
+                "('francois.hollande@gmail.com', 'François', 'Hollande', 'Computer Science')," +
+                "('jacques.chirac@gmail.com', 'Jacques', 'Chirac', 'Computer Science')," +
+                "('claude.francois@gmail.com', 'Claude', 'François', 'Computer Science')," +
+                "('jean-jacques.goldman@gmail.com', 'Jean-Jacques', 'Goldman', 'Computer Science')," +
+                "('seongwook.chae@gmail.com', 'Seongwook', 'Chae', 'Computer Science')," +
+                "('florian.oliverez@gmail.com', 'Florian', 'Oliverez', 'Computer Science')"
         );
     }
 

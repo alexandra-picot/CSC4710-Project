@@ -23,7 +23,7 @@ public class PaperDetails extends HttpServlet {
 
         try {
             Statement statementPcMembers = _dbConnection.createStatement();
-            ResultSet rsPcMembers = statementPcMembers.executeQuery(" SELECT * FROM pc_members");
+            ResultSet rsPcMembers = statementPcMembers.executeQuery("SELECT * FROM pc_members");
 
             while (rsPcMembers.next()) {
                 pcMembers.add(rsPcMembers.getString("email"));
@@ -59,7 +59,7 @@ public class PaperDetails extends HttpServlet {
 
         try {
             Statement statementPaperReviewers = _dbConnection.createStatement();
-            ResultSet rsPaperReviewers = statementPaperReviewers.executeQuery(" SELECT pc_member_id FROM reports WHERE paper_id = " + paperId);
+            ResultSet rsPaperReviewers = statementPaperReviewers.executeQuery("SELECT pc_member_id FROM reports WHERE paper_id = " + paperId);
 
             while (rsPaperReviewers.next()) {
                 paperReviewers.add(rsPaperReviewers.getString("pc_member_id"));
@@ -70,11 +70,31 @@ public class PaperDetails extends HttpServlet {
         return paperReviewers;
     }
 
+    private ArrayList<String> getListOfAuthors(String paperId) {
+        ArrayList<String> paperAuthors = new ArrayList<>();
+
+        try {
+            Statement statementPaperAuthors = _dbConnection.createStatement();
+            ResultSet rsPaperAuthors = statementPaperAuthors.executeQuery(
+                    "SELECT CONCAT(a.first_name, ' ', a.last_name) AS full_name FROM paper_authors pa " +
+                            "JOIN authors a ON pa.author_id = a.email WHERE pa.paper_id = " + paperId +
+                            " ORDER BY pa.contribution_significance ASC");
+
+            while (rsPaperAuthors.next()) {
+                paperAuthors.add(rsPaperAuthors.getString("full_name"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return paperAuthors;
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Map<String, String> paperDetails;
         ArrayList<String> pcMembers = new ArrayList<>();
         ArrayList<String> paperReviewers;
+        ArrayList<String> paperAuthors;
 
         String[] pathInfo = req.getPathInfo().split("/");
         String paperId = pathInfo[1];
@@ -87,20 +107,14 @@ public class PaperDetails extends HttpServlet {
         }
         paperDetails = getPaperDetails(paperId);
 
+        paperAuthors = getListOfAuthors(paperId);
+
         _dbConnection.closeConnection();
 
         req.setAttribute("paperDetails", paperDetails);
         req.setAttribute("pcMembers", pcMembers);
         req.setAttribute("paperReviewers", paperReviewers);
+        req.setAttribute("paperAuthors", paperAuthors);
         req.getRequestDispatcher("/paper-details.jsp").forward(req, resp);
     }
 }
-
-/*
-                    Statement statement = dbConnection.getConnection().createStatement();
-
-                    statement.executeUpdate("INSERT INTO reports (paper_id, pc_member_id) VALUES ('" + paperId + "', '" + firstReviewer + "'), " +
-                            "('" + paperId + "', '" + secondReviewer + "'), " +
-                            "('" + paperId + "', '" + thirdReviewer + "')");
-
- */

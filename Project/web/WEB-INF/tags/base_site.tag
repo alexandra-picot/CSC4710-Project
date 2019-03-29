@@ -30,7 +30,7 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home<span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
@@ -41,7 +41,7 @@
     </div>
 </nav>
 
-<div class="container-fluid mt-2">
+<div class="container-fluid mt-5">
     <jsp:doBody/>
 </div>
 
