@@ -8,78 +8,86 @@
 
 <%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Paper Details</title>
-</head>
-<body>
-    <h1>Details of paper: ${paperDetails.title} </h1>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <p>
-        <strong>Description:</strong><br>
-        ${paperDetails.description}
-    </p>
-    <p>
-        <strong>Paper id:</strong> ${paperDetails.paperid}
-    </p>
+<t:base_site>
 
-    <br><br>
+    <jsp:attribute name="page_title">
+        About
+    </jsp:attribute>
 
-    <form action="" id="reviewers" method="post">
-        <h2>Paper reviewers:</h2>
+    <jsp:attribute name="head_links">
+        <link href="${pageContext.request.contextPath}/Stylesheet/paperdetails.css" rel="stylesheet" type="text/css">
+        <script src="${pageContext.request.contextPath}/js/PaperDetailsFormValidation.js"></script>
+    </jsp:attribute>
 
+    <jsp:body>
+        <h1>Details of paper: ${paperDetails.title} </h1>
 
-        <label for="firstreviewer"><strong>First reviewer:</strong></label>
-        <select form="reviewers" name="firstreviewer" id="firstreviewer">
-            <option value=""></option>
-            <%
-                ArrayList<String> pcMembers = (ArrayList) request.getAttribute("pcMembers");
+        <p>
+            <strong>Description:</strong><br/>
+            ${paperDetails.description}
+        </p>
+        <p>
+            <strong>Paper id:</strong> ${paperDetails.paperid}
+        </p>
 
-                for (String member: pcMembers) {
-            %>
-            <option value=<%= member %>><%= member %></option>
-            <%
-                }
-            %>
-        </select>
-        <span class="error">${messages.firstreviewer}</span>
+        <br/><br/>
 
-        <br><br>
+        <c:choose>
+            <c:when test="${empty paperReviewers}">
+                <form name="assignReviewers" action="${pageContext.request.contextPath}/savepaperreviewers" method="post" id="assignReviewers" onsubmit="return validateForm();">
+                    <h2>Paper reviewers:</h2>
 
 
-        <label for="secondreviewer"><strong>Second reviewer:</strong></label>
-        <select form="reviewers" name="secondreviewer" id="secondreviewer">
-            <option value=""></option>
-            <%
-                for (String member: pcMembers) {
-            %>
-            <option value=<%= member %>><%= member %></option>
-            <%
-                }
-            %>
-        </select>
-        <span class="error">${messages.secondreviewer}</span>
+                    <label for="firstReviewer"><strong>First reviewer:</strong></label>
+                    <select form="assignReviewers" name="firstReviewer" id="firstReviewer">
+                        <option value=""></option>
+                        <c:forEach items="${pcMembers}" var="member">
+                            <option value=${member}>${member}</option>
+                        </c:forEach>
+                    </select>
+                    <span id="firstReviewerError" class="error">${messages.firstreviewer}</span>
 
-        <br><br>
+                    <br/><br/>
+
+                    <label for="secondReviewer"><strong>Second reviewer:</strong></label>
+                    <select form="assignReviewers" name="secondReviewer" id="secondReviewer">
+                        <option value=""></option>
+                        <c:forEach items="${pcMembers}" var="member">
+                            <option value=${member}>${member}</option>
+                        </c:forEach>
+                    </select>
+                    <span id="secondReviewerError" class="error">${messages.secondreviewer}</span>
+
+                    <br/><br/>
 
 
-        <label for="thirdreviewer"><strong>Third reviewer:</strong></label>
-        <select form="reviewers" name="thirdreviewer" id="thirdreviewer">
-            <option value=""></option>
-            <%
-                for (String member: pcMembers) {
-            %>
-            <option value=<%= member %>><%= member %></option>
-            <%
-                }
-            %>
-        </select>
-        <span class="error">${messages.thirdreviewer}</span>
+                    <label for="thirdReviewer"><strong>Third reviewer:</strong></label>
+                    <select form="assignReviewers" name="thirdReviewer" id="thirdReviewer">
+                        <option value=""></option>
+                        <c:forEach items="${pcMembers}" var="member">
+                            <option value=${member}>${member}</option>
+                        </c:forEach>
+                    </select>
+                    <span id="thirdReviewerError" class="error">${messages.thirdreviewer}</span>
 
-        <input type="hidden" name="paperid" value=${paperDetails.paperid}>
+                    <input type="hidden" name="paperid" value=${paperDetails.paperid}>
 
-        <br><br>
-        <button type="submit"><strong>Save paper reviewers</strong></button>
-    </form>
-</body>
-</html>
+                    <br/><br/>
+                    <button type="submit"><strong>Save paper reviewers</strong></button>
+                </form>
+            </c:when>
+            <c:otherwise>
+                <h3>Reviewers list:</h3>
+                <ul>
+                    <c:forEach items="${paperReviewers}" var="reviewer">
+                        <li>${reviewer}</li>
+                    </c:forEach>
+                </ul>
+            </c:otherwise>
+        </c:choose>
+    </jsp:body>
+
+</t:base_site>

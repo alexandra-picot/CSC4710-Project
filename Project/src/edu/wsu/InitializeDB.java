@@ -14,7 +14,7 @@ public class InitializeDB extends HttpServlet {
     private DBConnection _dbConnection = null;
 
     private void dropTables() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("DROP TABLE IF EXISTS paper_authors");
         createTable.execute("DROP TABLE IF EXISTS reports");
@@ -24,7 +24,7 @@ public class InitializeDB extends HttpServlet {
     }
 
     private void createAuthorsTable() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS authors (" +
                 "email VARCHAR(255) NOT NULL," +
@@ -56,7 +56,7 @@ public class InitializeDB extends HttpServlet {
     }
 
     private void createPapersTable() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS papers (" +
                 "paperid INTEGER NOT NULL AUTO_INCREMENT," +
@@ -104,7 +104,7 @@ public class InitializeDB extends HttpServlet {
     }
 
     private void createPaperAuthorsJunctionTable() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS paper_authors (" +
                 "paper_id INTEGER NOT NULL," +
@@ -148,7 +148,7 @@ public class InitializeDB extends HttpServlet {
     }
 
     private void createPCMembersTable() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS pc_members (" +
                 "email VARCHAR(255) NOT NULL," +
@@ -174,7 +174,7 @@ public class InitializeDB extends HttpServlet {
     }
 
     private void createReportsTable() throws Exception {
-        Statement createTable = _dbConnection.getConnection().createStatement();
+        Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS reports (" +
                 "reportid INTEGER NOT NULL AUTO_INCREMENT," +
@@ -214,7 +214,6 @@ public class InitializeDB extends HttpServlet {
 
         _dbConnection.closeConnection();
 
-        RequestDispatcher view = req.getRequestDispatcher("/initialize-db.jsp");
-        view.forward(req, resp);
+        req.getRequestDispatcher("/initialize-db.jsp").forward(req, resp);
     }
 }
