@@ -13,11 +13,132 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+interface StringFunction {
+    String func(HttpServletRequest req);
+}
+
 @WebServlet("/paper-list")
 public class PaperList extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private static final Map<String, String> fieldHtmlToSqlAuthor = new HashMap<>();
+    static {
+        fieldHtmlToSqlAuthor.put("email", "a.email");
+        fieldHtmlToSqlAuthor.put("firstname", "a.first_name");
+        fieldHtmlToSqlAuthor.put("lastname", "a.last_name");
+        fieldHtmlToSqlAuthor.put("affiliation", "a.affiliation");
+    }
+
+    private static final Map<String, String> fieldHtmlToSqlReviewer = new HashMap<>();
+    static {
+        fieldHtmlToSqlReviewer.put("email", "pm.email");
+        fieldHtmlToSqlReviewer.put("firstname", "pm.first_name");
+        fieldHtmlToSqlReviewer.put("lastname", "pm.last_name");
+    }
+
+    private static final Map<String, String> fieldHtmlToSqlPaper = new HashMap<>();
+    static {
+        fieldHtmlToSqlPaper.put("id", "paperid");
+        fieldHtmlToSqlPaper.put("title", "title");
+        fieldHtmlToSqlPaper.put("description", "abstract");
+    }
+
+    private static final Map<String, StringFunction> searchFieldsToBuildMethod = new HashMap<>();
+    static {
+        //TODO: Link the accepted/rejected paper! Create SQL Views
+        searchFieldsToBuildMethod.put("authorFields", (req) -> {
+            String[] exactSearch = req.getParameterValues("checkAuthorExactSearch");
+            String sql;
+            if (exactSearch.length == 1 && exactSearch[0].equals("exact")) {
+                sql = buildFieldSearchSql(req,
+                        "authorToSearch",
+                        "groupAuthorFields",
+                        fieldHtmlToSqlAuthor, true);
+            } else {
+                sql = buildFieldSearchSql(req,
+                        "authorToSearch",
+                        "groupAuthorFields",
+                        fieldHtmlToSqlAuthor);
+            }
+
+
+             sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
+                    "INNER JOIN authors a on pa.author_id = a.email " +
+                    "WHERE " + sql + ")";
+            System.out.println(sql);
+            return sql;
+        });
+        searchFieldsToBuildMethod.put("authorSpecial", (req) -> {
+            String authorSpecial = req.getParameter("groupAuthorSpecial");
+            String sql;
+            if (authorSpecial.equals("single")) {
+                sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
+                        "WHERE (" +
+                        "SELECT COUNT(*) FROM paper_authors WHERE paper_id = pa.paper_id" +
+                        ") = 1)";
+            } else {
+                String selectAuthorContribution = req.getParameter("selectAuthorContribution");
+                sql = "paperid IN (SELECT paper_id FROM paper_authors " +
+                        "WHERE contribution_significance = " + selectAuthorContribution + ")";
+            }
+            System.out.println(sql);
+            return sql;
+        });
+        searchFieldsToBuildMethod.put("reviewerFields", (req) -> {
+            String[] exactSearch = req.getParameterValues("checkReviewerExactSearch");
+            String sql;
+            if (exactSearch.length == 1 && exactSearch[0].equals("exact")) {
+                sql = buildFieldSearchSql(req,
+                        "reviewerToSearch",
+                        "groupReviewerFields",
+                        fieldHtmlToSqlReviewer, true);
+            } else {
+                sql = buildFieldSearchSql(req,
+                        "reviewerToSearch",
+                        "groupReviewerFields",
+                        fieldHtmlToSqlReviewer);
+            }
+            sql = "paperid IN (SELECT DISTINCT rep.paper_id FROM reports rep " +
+                    "INNER JOIN pc_members pm on rep.pc_member_id = pm.email " +
+                    "WHERE " + sql + ")";
+            System.out.println(sql);
+            return sql;
+        });
+        searchFieldsToBuildMethod.put("paperFields", (req) -> {
+            String sql = buildFieldSearchSql(req,
+                    "paperToSearch",
+                    "groupPaperFields",
+                    fieldHtmlToSqlPaper);
+
+            sql = "(" + sql + ")";
+            System.out.println(sql);
+            return sql;
+        });
+    }
+
+    private static String buildFieldSearchSql(HttpServletRequest req, String toSearchName, String groupFieldsName, Map<String, String> htmlToSql) {
+        return buildFieldSearchSql(req, toSearchName, groupFieldsName, htmlToSql, false);
+    }
+
+    private static String buildFieldSearchSql(HttpServletRequest req, String toSearchName, String groupFieldsName, Map<String, String> htmlToSql, Boolean exact) {
+        String searchInfo = req.getParameter(toSearchName);
+        ArrayList<String> columnToSearch = new ArrayList<>();
+        String[] fieldsToSearch = req.getParameterValues(groupFieldsName);
+        String preCompString;
+        String postCompString;
+        if (exact) {
+            preCompString = "'";
+            postCompString = "'";
+        } else {
+            preCompString = "'%";
+            postCompString = "%'";
+        }
+        for (String field: fieldsToSearch) {
+            columnToSearch.add(htmlToSql.get(field) + " LIKE " + preCompString + searchInfo + postCompString);
+        }
+        return String.join(" OR ", columnToSearch);
+    }
+
+    private ArrayList<Map<String, String>> getPaperList(String sql) {
         DBConnection dbConnection = new DBConnection();
 
         ArrayList<Map<String, String>> paperList = new ArrayList<>();
@@ -25,7 +146,7 @@ public class PaperList extends HttpServlet {
         try {
             Statement statement = dbConnection.createStatement();
 
-            ResultSet res = statement.executeQuery( " SELECT * FROM papers");
+            ResultSet res = statement.executeQuery(sql);
 
             while (res.next()) {
                 Map<String, String> tmp = new HashMap<>();
@@ -40,66 +161,74 @@ public class PaperList extends HttpServlet {
 
         dbConnection.closeConnection();
 
+        return paperList;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ArrayList<Map<String, String>> paperList = getPaperList("SELECT * FROM papers");
+
         req.setAttribute("paperList", paperList);
         req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        DBConnection dbConnection = new DBConnection();
+        ArrayList<Map<String, String>> paperList;
 
-        String searchInfo = req.getParameter("searchPaper");
 
-        String firstName = req.getParameter("authorType");
-//        System.out.println(firstName);
-//        String[] values = req.getParameterValues("byFields");
-//        if (values != null) {
-//            for (String value: values) {
-//                System.out.println(value);
-//            }
-//        }
-//        String search
-/*
-* authorFirstName
-* authorLastName
-* authorAffiliation
-* paperTitle
-* paperDescription
-*
-*
-* authorTypeSingle
-* */
-        ArrayList<Map<String, String>> paperList = new ArrayList<>();
+        String standardSearch = req.getParameter("standardSearch");
 
-        try {
-            Statement statement = dbConnection.createStatement();
+        System.out.println(standardSearch);
 
-            ResultSet resPapers = statement.executeQuery(
-                    "SELECT DISTINCT p.paperid, p.title, p.abstract " +
-                            "FROM paper_authors pa " +
-                            "INNER JOIN papers p on pa.paper_id = p.paperid " +
-                            "INNER JOIN authors a on pa.author_id = a.email " +
-                            "WHERE a.last_name LIKE '%" + searchInfo +"%' OR " +
-                            "a.first_name LIKE '%" + searchInfo + "%' OR " +
-                            "a.affiliation LIKE '%" + searchInfo + "%' OR " +
-                            "p.title LIKE '%" + searchInfo + "%' OR " +
-                            "p.abstract LIKE '%" + searchInfo + "%'"
-            );
+        if (standardSearch != null) {
+            String searchInfo = req.getParameter("searchPaper");
 
-            while (resPapers.next()) {
-                Map<String, String> tmp = new HashMap<>();
-                tmp.put("paperid", String.valueOf(resPapers.getInt("paperid")));
-                tmp.put("title", resPapers.getString("title"));
-                tmp.put("abstract", resPapers.getString("abstract"));
-                paperList.add(tmp);
+            paperList = getPaperList("SELECT DISTINCT paperid, title, abstract " +
+                    "FROM papers " +
+                    "WHERE title LIKE '%" + searchInfo + "%' OR " +
+                    "abstract LIKE '%" + searchInfo + "%'");
+
+
+        } else {
+            String searchType = req.getParameter("searchType");
+            System.out.println(searchType);
+            if (searchType.equals("fieldSearch")) {
+                String[] fieldsToSearch = req.getParameterValues("toSearchGroup");
+
+                ArrayList<String> conditionsToJoin = new ArrayList<>();
+                for (String field: fieldsToSearch) {
+                    System.out.println(field);
+                    conditionsToJoin.add(searchFieldsToBuildMethod.get(field).func(req));
+                }
+
+                String sql = String.join(" AND ", conditionsToJoin);
+
+                sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
+                paperList = getPaperList(sql);
+            } else {
+                paperList = null;
             }
-        } catch(Exception e) {
-            System.out.println(e);
         }
-
-        dbConnection.closeConnection();
-
         req.setAttribute("paperList", paperList);
         req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
+//        String filteringType = req.getParameter("filteringType");
+//
+//        String sqlFilter = "";
+//        switch (filteringType) {
+//            case "byFieldsSearch":
+//                S
+//
+//                sqlFilter = sqlFilter.join(" OR ")
+//                break;
+//            case "authorTypeSearch":
+//                break;
+//
+//            default:
+//
+//        }
+//        String authorType = req.getParameter("authorType");
+
+
     }
 }

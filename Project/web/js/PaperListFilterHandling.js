@@ -5,11 +5,54 @@ function showFieldSearch() {
     divAuthorTypeSearch.style.display = "none";
 }
 
-function showAuthorTypeSearch() {
+function showSpecialSearch() {
     var divFieldSearch = document.getElementById("divFieldSearch");
     var divAuthorTypeSearch = document.getElementById("divAuthorTypeSearch");
     divFieldSearch.style.display = "none";
     divAuthorTypeSearch.style.display = "block";
+}
+
+function genericShowFieldSearch(divName, checkboxName) {
+    var div = document.getElementById(divName);
+    var checkbox = document.getElementById(checkboxName);
+
+    if (checkbox.checked) {
+        div.style.display = "block";
+    } else {
+        div.style.display = "none";
+    }
+}
+
+function showPaperStatus() {
+    genericShowFieldSearch("divPaperStatus", "paperStatus")
+}
+
+function showAuthorFields() {
+    genericShowFieldSearch("divAuthorFields", "authorFields")
+}
+
+function showAuthorSpecial() {
+    genericShowFieldSearch("divAuthorSpecial", "authorSpecial")
+}
+
+function showReviewerFields() {
+    genericShowFieldSearch("divReviewerFields", "reviewerFields")
+}
+
+function showPaperFields() {
+    genericShowFieldSearch("divPaperFields", "paperFields")
+}
+
+function showAuthorContributionSelect() {
+    var select = document.getElementById("selectAuthorContribution");
+
+    var checkbox = document.getElementById("authorContribution");
+
+    if (checkbox.checked) {
+        select.attributes.removeNamedItem("disabled");
+    } else {
+        select.disabled = true;
+    }
 }
 
 function showCoAuthorInputs() {
@@ -22,8 +65,8 @@ function hideCoAuthorInputs() {
     coAuthorBlock.style.display = "none";
 }
 
-function showFilters() {
-    var x = document.getElementById("filters");
+function showAdvancedSearch() {
+    var x = document.getElementById("divAdvancedSearch");
     if (x.style.display === "none") {
         x.style.display = "block";
     } else {

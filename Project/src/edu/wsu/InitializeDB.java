@@ -153,7 +153,8 @@ public class InitializeDB extends HttpServlet {
 
         createTable.execute("CREATE TABLE IF NOT EXISTS pc_members (" +
                 "email VARCHAR(255) NOT NULL," +
-                "name VARCHAR(150) NOT NULL," +
+                "first_name VARCHAR(100) NOT NULL," +
+                "last_name VARCHAR(100) NOT NULL," +
                 "PRIMARY KEY (email)" +
                 ")"
         );
@@ -161,16 +162,16 @@ public class InitializeDB extends HttpServlet {
         createTable.executeUpdate("DELETE FROM pc_members");
 
         createTable.executeUpdate("INSERT INTO pc_members VALUES " +
-                "('robert.reynold@gmail.com', 'Robert Reynolds')," +
-                "('charles.degaulle@gmail.com', 'Charles De-Gaulle')," +
-                "('emmanuel.macron@gmail.com', 'Emmanuel Macron')," +
-                "('luc.besson@gmail.com', 'Luc Besson')," +
-                "('tylor.swift@gmail.com', 'Tylor Swift')," +
-                "('eli.semoun@gmail.com', 'Eli Semoun')," +
-                "('mimi.mathie@gmail.com', 'Mimi Mathie')," +
-                "('j.k.rowling@gmail.com', 'J.K. Rowling')," +
-                "('neil.degrasse.tyson@gmail.com', 'Neil deGrasse Tyson')," +
-                "('julie.dupuit@gmail.com', 'Julie Dupuit')"
+                "('robert.reynold@gmail.com', 'Robert', 'Reynolds')," +
+                "('charles.degaulle@gmail.com', 'Charles', 'De-Gaulle')," +
+                "('emmanuel.macron@gmail.com', 'Emmanuel', 'Macron')," +
+                "('luc.besson@gmail.com', 'Luc', 'Besson')," +
+                "('tylor.swift@gmail.com', 'Tylor', 'Swift')," +
+                "('eli.semoun@gmail.com', 'Eli', 'Semoun')," +
+                "('mimi.mathie@gmail.com', 'Mimi', 'Mathie')," +
+                "('j.k.rowling@gmail.com', 'J.K.', 'Rowling')," +
+                "('neil.degrasse.tyson@gmail.com', 'Neil', 'deGrasse Tyson')," +
+                "('julie.dupuit@gmail.com', 'Julie', 'Dupuit')"
         );
     }
 
