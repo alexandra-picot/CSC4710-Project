@@ -1,15 +1,15 @@
 function showFieldSearch() {
     var divFieldSearch = document.getElementById("divFieldSearch");
-    var divAuthorTypeSearch = document.getElementById("divAuthorTypeSearch");
+    var divSpecialSearch = document.getElementById("divSpecialSearch");
     divFieldSearch.style.display = "block";
-    divAuthorTypeSearch.style.display = "none";
+    divSpecialSearch.style.display = "none";
 }
 
 function showSpecialSearch() {
     var divFieldSearch = document.getElementById("divFieldSearch");
-    var divAuthorTypeSearch = document.getElementById("divAuthorTypeSearch");
+    var divSpecialSearch = document.getElementById("divSpecialSearch");
     divFieldSearch.style.display = "none";
-    divAuthorTypeSearch.style.display = "block";
+    divSpecialSearch.style.display = "block";
 }
 
 function genericShowFieldSearch(divName, checkboxName) {
@@ -56,13 +56,17 @@ function showAuthorContributionSelect() {
 }
 
 function showCoAuthorInputs() {
-    var coAuthorBlock = document.getElementById("coAuthor");
-    coAuthorBlock.style.display = "block";
+    var divRejectedBy = document.getElementById("divRejectedBy");
+    var divCoAuthor = document.getElementById("divCoAuthor");
+    divRejectedBy.style.display = "none";
+    divCoAuthor.style.display = "block";
 }
 
-function hideCoAuthorInputs() {
-    var coAuthorBlock = document.getElementById("coAuthor");
-    coAuthorBlock.style.display = "none";
+function showRejectedByInputs() {
+    var divRejectedBy = document.getElementById("divRejectedBy");
+    var divCoAuthor = document.getElementById("divCoAuthor");
+    divRejectedBy.style.display = "block";
+    divCoAuthor.style.display = "none";
 }
 
 function showAdvancedSearch() {

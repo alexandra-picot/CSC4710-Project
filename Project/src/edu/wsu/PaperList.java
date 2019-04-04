@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ interface StringFunction {
 
 @WebServlet("/paper-list")
 public class PaperList extends HttpServlet {
+
+    private DBConnection _dbConnection;
 
     private static final Map<String, String> fieldHtmlToSqlAuthor = new HashMap<>();
     static {
@@ -44,7 +47,32 @@ public class PaperList extends HttpServlet {
 
     private static final Map<String, StringFunction> searchFieldsToBuildMethod = new HashMap<>();
     static {
-        //TODO: Link the accepted/rejected paper! Create SQL Views
+        searchFieldsToBuildMethod.put("paperStatus", (req) -> {
+            String[] toSearch = req.getParameterValues("groupPaperStatus");
+            ArrayList<String> toSearchAL = new ArrayList<>(Arrays.asList(toSearch));
+            String sql = "";
+            if (toSearchAL.contains("pending") && toSearchAL.contains("accepted") && toSearchAL.contains("rejected")) {
+                sql = "SELECT paper_id FROM reports GROUP BY paper_id";
+            } else if (toSearchAL.contains("pending") && toSearchAL.contains("accepted")) {
+                sql = "SELECT r.paper_id FROM reports r, rejectedpaper rp WHERE r.paper_id != rp.paper_id GROUP BY r.paper_id";
+            } else if (toSearchAL.contains("pending") && toSearchAL.contains("rejected")) {
+                sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap WHERE r.paper_id != ap.paper_id GROUP BY r.paper_id";
+            } else if (toSearchAL.contains("rejected") && toSearchAL.contains("accepted")) {
+                sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap, rejectedpaper rp WHERE r.paper_id = ap.paper_id OR r.paper_id = rp.paper_id GROUP BY r.paper_id";
+            } else if (toSearchAL.contains("pending")) {
+                sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap, rejectedpaper rp WHERE r.paper_id != ap.paper_id AND r.paper_id != rp.paper_id GROUP BY r.paper_id";
+            } else if (toSearchAL.contains("accepted")) {
+                sql = "SELECT paperid FROM papers INNER JOIN acceptedpaper ap ON paperid = ap.paper_id";
+            } else if (toSearchAL.contains("rejected")) {
+                sql = "SELECT paperid FROM papers INNER JOIN rejectedpaper rp ON paperid = rp.paper_id";
+            }
+//            } else {
+//                //TODO: error
+//            }
+            sql = "paperid IN (" + sql + ")";
+
+            return sql;
+        });
         searchFieldsToBuildMethod.put("authorFields", (req) -> {
             String[] exactSearch = req.getParameterValues("checkAuthorExactSearch");
             String sql;
@@ -138,13 +166,37 @@ public class PaperList extends HttpServlet {
         return String.join(" OR ", columnToSearch);
     }
 
-    private ArrayList<Map<String, String>> getPaperList(String sql) {
-        DBConnection dbConnection = new DBConnection();
+    private ArrayList<String> getEmailList(String table) {
+        ArrayList<String> list = new ArrayList<>();
 
+        try {
+            Statement statement = _dbConnection.createStatement();
+
+            System.out.println("SELECT email FROM " + table);
+            ResultSet res = statement.executeQuery("SELECT email FROM " + table);
+
+            while (res.next()) {
+                list.add(res.getString("email"));
+            }
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    private ArrayList<String> getAuthorsList() {
+        return getEmailList("authors");
+    }
+
+    private ArrayList<String> getPCMembersList() {
+        return getEmailList("pc_members");
+    }
+
+    private ArrayList<Map<String, String>> getPaperList(String sql) {
         ArrayList<Map<String, String>> paperList = new ArrayList<>();
 
         try {
-            Statement statement = dbConnection.createStatement();
+            Statement statement = _dbConnection.createStatement();
 
             ResultSet res = statement.executeQuery(sql);
 
@@ -159,23 +211,30 @@ public class PaperList extends HttpServlet {
             System.out.println(e);
         }
 
-        dbConnection.closeConnection();
-
         return paperList;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        _dbConnection = new DBConnection();
         ArrayList<Map<String, String>> paperList = getPaperList("SELECT * FROM papers");
+        ArrayList<String> authorsList = getAuthorsList();
+        ArrayList<String> pcMembersList = getPCMembersList();
+        _dbConnection.closeConnection();
 
         req.setAttribute("paperList", paperList);
+        req.setAttribute("authorsList", authorsList);
+        req.setAttribute("pcMembersList", pcMembersList);
         req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ArrayList<Map<String, String>> paperList;
+        _dbConnection = new DBConnection();
 
+        ArrayList<Map<String, String>> paperList;
+        ArrayList<String> authorsList = getAuthorsList();
+        ArrayList<String> pcMembersList = getPCMembersList();
 
         String standardSearch = req.getParameter("standardSearch");
 
@@ -205,30 +264,35 @@ public class PaperList extends HttpServlet {
                 String sql = String.join(" AND ", conditionsToJoin);
 
                 sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
+                System.out.println(sql);
                 paperList = getPaperList(sql);
             } else {
-                paperList = null;
+                String specialSearch = req.getParameter("groupSpecialSearch");
+                if (specialSearch.equals("coAuthor")) {
+                    String firstAuthor = req.getParameter("firstAuthor");
+                    String secondAuthor = req.getParameter("secondAuthor");
+
+                    String sql = "SELECT p.paperid, p.title, p.abstract FROM paper_authors pa INNER JOIN papers p ON pa.paper_id = p.paperid " +
+                            "WHERE pa.author_id IN ('" + firstAuthor + "', '" + secondAuthor + "'" +
+                            ") GROUP BY pa.paper_id HAVING COUNT(*) = 2 AND MAX(pa.contribution_significance) = 2";
+                    paperList = getPaperList(sql);
+
+                } else {
+                    String firstReviewer = req.getParameter("firstReviewer");
+                    String secondReviewer = req.getParameter("secondReviewer");
+
+                    String sql = "SELECT p.paperid, p.title, p.abstract FROM reports r INNER JOIN papers p ON r.paper_id = p.paperid " +
+                            "WHERE pc_member_id IN ('" + firstReviewer + "', '" + secondReviewer + "') AND recommendation = 'R' GROUP BY paper_id HAVING COUNT(*) = 2";
+                    paperList = getPaperList(sql);
+                }
             }
         }
+
+        _dbConnection.closeConnection();
+
         req.setAttribute("paperList", paperList);
+        req.setAttribute("authorsList", authorsList);
+        req.setAttribute("pcMembersList", pcMembersList);
         req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
-//        String filteringType = req.getParameter("filteringType");
-//
-//        String sqlFilter = "";
-//        switch (filteringType) {
-//            case "byFieldsSearch":
-//                S
-//
-//                sqlFilter = sqlFilter.join(" OR ")
-//                break;
-//            case "authorTypeSearch":
-//                break;
-//
-//            default:
-//
-//        }
-//        String authorType = req.getParameter("authorType");
-
-
     }
 }

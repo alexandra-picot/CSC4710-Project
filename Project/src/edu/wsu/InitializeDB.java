@@ -13,7 +13,7 @@ public class InitializeDB extends HttpServlet {
 
     private DBConnection _dbConnection = null;
 
-    private void dropTables() throws Exception {
+    private void dropTables() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("DROP TABLE IF EXISTS paper_authors");
@@ -21,9 +21,11 @@ public class InitializeDB extends HttpServlet {
         createTable.execute("DROP TABLE IF EXISTS authors");
         createTable.execute("DROP TABLE IF EXISTS papers");
         createTable.execute("DROP TABLE IF EXISTS pc_members");
+        createTable.execute("DROP VIEW IF EXISTS acceptedpaper");
+        createTable.execute("DROP VIEW IF EXISTS rejectedpaper");
     }
 
-    private void createAuthorsTable() throws Exception {
+    private void createAuthorsTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS authors (" +
@@ -56,7 +58,7 @@ public class InitializeDB extends HttpServlet {
         );
     }
 
-    private void createPapersTable() throws Exception {
+    private void createPapersTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS papers (" +
@@ -104,7 +106,7 @@ public class InitializeDB extends HttpServlet {
         );
     }
 
-    private void createPaperAuthorsJunctionTable() throws Exception {
+    private void createPaperAuthorsJunctionTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS paper_authors (" +
@@ -148,7 +150,7 @@ public class InitializeDB extends HttpServlet {
         );
     }
 
-    private void createPCMembersTable() throws Exception {
+    private void createPCMembersTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS pc_members (" +
@@ -175,7 +177,7 @@ public class InitializeDB extends HttpServlet {
         );
     }
 
-    private void createReportsTable() throws Exception {
+    private void createReportsTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
 
         createTable.execute("CREATE TABLE IF NOT EXISTS reports (" +
@@ -199,6 +201,21 @@ public class InitializeDB extends HttpServlet {
         createTable.executeUpdate("DELETE FROM reports");
     }
 
+
+    private void createAcceptedPaperTable() throws SQLException {
+        Statement createView = _dbConnection.createStatement();
+
+        createView.execute("CREATE VIEW AcceptedPaper(paper_id) AS " +
+                "SELECT paper_id FROM reports WHERE recommendation = 'A' GROUP BY paper_id HAVING COUNT(*) >= 2;");
+    }
+
+    private void createRejectedPaperTable() throws SQLException {
+        Statement createView = _dbConnection.createStatement();
+
+        createView.execute("CREATE VIEW RejectedPaper(paper_id) AS " +
+                "SELECT paper_id FROM reports WHERE recommendation = 'R' GROUP BY paper_id HAVING COUNT(*) >= 2;");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         _dbConnection = new DBConnection();
@@ -210,7 +227,9 @@ public class InitializeDB extends HttpServlet {
             createPaperAuthorsJunctionTable();
             createPCMembersTable();
             createReportsTable();
-        } catch(Exception e) {
+            createAcceptedPaperTable();
+            createRejectedPaperTable();
+        } catch (Exception e) {
             System.out.println(e);
         }
 
