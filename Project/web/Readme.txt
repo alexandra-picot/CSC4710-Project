@@ -17,6 +17,7 @@ Vincent:    - Setup of both our development environments
 		    - Conversion of all html and jsp files into jsp files with the base_site tag
 		    - Conversion and all Java scriptlet in jsp files into JSTL
 		    - Save reviewers into the database + form validation in JavaScript on paper-details.jsp
+		    - All the advanced and standard search in the paper-list page (points 4/5/6/9/10 of the subject)
 
 
 Mrinnal and Vincent:

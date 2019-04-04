@@ -1,6 +1,5 @@
 package edu.wsu;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -172,7 +171,6 @@ public class PaperList extends HttpServlet {
         try {
             Statement statement = _dbConnection.createStatement();
 
-            System.out.println("SELECT email FROM " + table);
             ResultSet res = statement.executeQuery("SELECT email FROM " + table);
 
             while (res.next()) {

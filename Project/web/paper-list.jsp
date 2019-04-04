@@ -314,6 +314,7 @@ To change this template use File | Settings | File Templates.
                         <th scope="col">Id</th>
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Delete paper</th>
                     </tr>
                     </thead>
                     <c:forEach items="${paperList}" var="paper">
@@ -321,6 +322,7 @@ To change this template use File | Settings | File Templates.
                             <th scope="row">${paper['paperid']}</th>
                             <td><a href="${pageContext.request.contextPath}/paperdetails/${paper['paperid']}">${paper['title']}</a></td>
                             <td>${paper['abstract']}</td>
+                            <td><a href="${pageContext.request.contextPath}/delete-paper/${paper['paperid']}" onclick="return confirm('Are you sure you want to delete the paper named :\n${paper["title"]}');">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>
