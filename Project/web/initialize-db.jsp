@@ -8,11 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        Initialize DB
-    </jsp:attribute>
+<t:base_site page_title="Initialize DB">
 
     <jsp:body>
         <h1>You've created the database's tables and filled them with data</h1>

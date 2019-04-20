@@ -8,11 +8,7 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        CSC4710 Project Index
-    </jsp:attribute>
+<t:base_site page_title="CSC4710 Project Index">
 
     <jsp:body>
         <h2>Important note:</h2>
@@ -22,11 +18,6 @@
         </p>
         <form action="initialize-db">
             <button type="submit" class="btn btn-primary">Initialize Database</button>
-        </form>
-        <p>
-        <p>
-        <form action="paper-list">
-            <button type="submit" class="btn btn-primary">Show Paper List</button>
         </form>
     </jsp:body>
 </t:base_site>

@@ -8,11 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        About
-    </jsp:attribute>
+<t:base_site page_title="About">
 
     <jsp:body>
         <p>

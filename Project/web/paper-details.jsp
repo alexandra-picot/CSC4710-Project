@@ -6,16 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        Paper Details
-    </jsp:attribute>
+<t:base_site page_title="Paper Details">
 
     <jsp:attribute name="head_links">
         <link href="${pageContext.request.contextPath}/Stylesheet/paperdetails.css" rel="stylesheet" type="text/css">
@@ -31,7 +26,7 @@
                 </p>
             </c:when>
             <c:otherwise>
-                <h1>${paperDetails.title} </h1>
+                <h1>${paperDetails.title}</h1>
 
                 <p>
                     <strong>Description:</strong><br/>

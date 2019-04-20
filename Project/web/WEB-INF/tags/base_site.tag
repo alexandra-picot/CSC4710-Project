@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@tag description="base site tag" pageEncoding="UTF-8"%>
-<%@attribute name="page_title" fragment="true"%>
-<%@attribute name="head_links" fragment="true" %>
+<%@attribute name="page_title" required="true"%>
+<%@attribute name="head_links" fragment="true"%>
 <html>
 <head>
     <!-- Required meta tags -->
@@ -17,7 +17,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title><jsp:invoke fragment="page_title"/></title>
+    <title>${page_title}</title>
     <jsp:invoke fragment="head_links"/>
 </head>
 <body>
@@ -31,6 +31,9 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/paper-list">Paper list<span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">

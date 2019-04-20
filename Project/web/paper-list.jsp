@@ -10,17 +10,24 @@ To change this template use File | Settings | File Templates.
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        Paper List
-    </jsp:attribute>
+<t:base_site page_title="Paper List">
 
     <jsp:attribute name="head_links">
         <script src="${pageContext.request.contextPath}/js/PaperListFilterHandling.js"></script>
     </jsp:attribute>
 
     <jsp:body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col d-flex flex-row-reverse">
+                    <form action="${pageContext.request.contextPath}/add-paper">
+                        <button type="submit" class="btn btn-primary">Create new paper</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <%--
         Header bar with title and search bar
         --%>
@@ -28,7 +35,6 @@ To change this template use File | Settings | File Templates.
             <div class="row align-items-center">
                 <div class="col">
                     <h2 align="left" class="ml-3 text-white"><a href="${pageContext.request.contextPath}/paper-list" class="text-white">List of papers</a></h2>
-
                 </div>
                 <div class="col d-flex flex-row-reverse mt-3 align-items-start">
                     <button class="mr-2 btn btn-light order-1" onclick="showAdvancedSearch()">Advanced Search</button>
@@ -42,9 +48,8 @@ To change this template use File | Settings | File Templates.
         </div>
 
         <%--
-                Hidden filter block that appear when user clicks on the filter button
-                --%>
-        <%--style="display: none"--%>
+        Hidden filter block that appear when user clicks on the filter button
+        --%>
         <div id="divAdvancedSearch" class="container-fluid bg-secondary py-3" style="display: none">
             <h2>Advanced search:</h2>
             <form id="formAdvancedPaperSearch" action="" method="post" class="form">
@@ -65,9 +70,9 @@ To change this template use File | Settings | File Templates.
                     </div>
                 </div>
 
-                    <%--
-                    Div that is display is the user select the radioButton 'Search by fields'
-                    --%>
+                <%--
+                Div that is display is the user select the radioButton 'Search by fields'
+                --%>
                 <div id="divFieldSearch" class="mt-3">
                     <div class="form-inline mb-3">
                         <div class="form-check form-check-inline">
@@ -320,7 +325,7 @@ To change this template use File | Settings | File Templates.
                     <c:forEach items="${paperList}" var="paper">
                         <tr>
                             <th scope="row">${paper['paperid']}</th>
-                            <td><a href="${pageContext.request.contextPath}/paperdetails/${paper['paperid']}">${paper['title']}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/edit-paper/${paper['paperid']}">${paper['title']}</a></td>
                             <td>${paper['abstract']}</td>
                             <td><a href="${pageContext.request.contextPath}/delete-paper/${paper['paperid']}" onclick="return confirm('Are you sure you want to delete the paper named :\n${paper["title"]}');">Delete</a></td>
                         </tr>

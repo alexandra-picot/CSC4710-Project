@@ -8,11 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base_site>
-
-    <jsp:attribute name="page_title">
-        Save Reviewers
-    </jsp:attribute>
+<t:base_site page_title="Save Reviewers">
 
     <jsp:body>
         <h1>You've successfully saved the reviewers for this paper!</h1>
