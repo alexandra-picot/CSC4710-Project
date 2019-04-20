@@ -13,7 +13,14 @@
     <jsp:body>
 
         <t:add_edit_paper_form action_link="add-paper"
+                               title="${paperDetails.title}"
+                               description="${paperDetails.description}"
+                               author_list="${paperAuthors}"
                                pc_member_list="${pcMembers}"
+                               first_reviewer="${paperReviewers[0]}"
+                               second_reviewer="${paperReviewers[1]}"
+                               third_reviewer="${paperReviewers[2]}"
+                               paper_id="${paperDetails.paperid}"
                                errors="${errors}">
 
         </t:add_edit_paper_form>
