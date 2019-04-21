@@ -51,8 +51,15 @@ public class InitializeDB extends HttpServlet {
                 "('francois.hollande@gmail.com', 'françois', 'hollande', 'Computer Science')," +
                 "('jacques.chirac@gmail.com', 'jacques', 'chirac', 'Computer Science')," +
                 "('claude.francois@gmail.com', 'claude', 'françois', 'Computer Science')," +
-                "('jean-jacques.goldman@gmail.com', 'jean-jacques', 'goldman', 'Computer Science')," +
                 "('seongwook.chae@gmail.com', 'seongwook', 'chae', 'Computer Science')," +
+                "('jean-jacques.goldman@gmail.com', 'jean-jacques', 'goldman', 'Computer Science')," +
+                "('mike.fotouhi@gmail.com', 'mike', 'fotouhi', 'Computer Science')," +
+                "('mikeish.ishfotouhi@gmail.com', 'mikeish', 'ishfotouhi', 'Computer Science')," +
+                "('ishmike.fotouhish@gmail.com', 'ishmike', 'fotouhish', 'Computer Science')," +
+                "('fotouhi.mike@gmail.com', 'fotouhi', 'mike', 'Computer Science')," +
+                "('ishfotouhi.mikeish@gmail.com', 'ishfotouhi', 'mikeish', 'Computer Science')," +
+                "('fotouhish.ishmike@gmail.com', 'fotouhish', 'ishmike', 'Computer Science')," +
+                "('yewon.lu@gmail.com', 'yewon', 'lu', 'Computer Science')," +
                 "('florian.oliverez@gmail.com', 'florian', 'oliverez', 'Computer Science')"
         );
     }
@@ -99,11 +106,43 @@ public class InitializeDB extends HttpServlet {
                 "('AI and music, the future of the music industry', " +
                 "'Recently, a first time ever, a google AI was able to create its own music. In this paper, we will try to see if AI could change the music industry and how.', " +
                 "'home/papers/paper')," +
+                "('Written by fotouhi single author', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for fotouhi (lastname), single author', " +
+                "'home/papers/paper')," +
+                "('Written by fotouhi single author 2', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for fotouhi (lastname), single author', " +
+                "'home/papers/paper')," +
+                "('Written by fotouhi and lu', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for co-author fotouhi and lu', " +
+                "'home/papers/paper')," +
+                "('Written by fotouhi and oliverez', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for fotouhi first author', " +
+                "'home/papers/paper')," +
+                "('Written by fotouhish', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for fotouhi (lastname) single other non-exact search', " +
+                "'home/papers/paper')," +
+                "('Written by fotouhish (firstname)', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for fotouhi (firstname) single other non-exact search', " +
+                "'home/papers/paper')," +
                 "('Warning and dangers of AI', " +
                 "'AI is in our lives, we use them inconsciously everyday, we talk a lot about how it improved everyones lives. But there are potential dangers in AI and that is what this paper will discuss about.', " +
+                "'home/papers/paper')," +
+                "('Rejected and reviewed by matt (firstname)', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for rejected paper with Matt as reviewer', " +
+                "'home/papers/paper')," +
+                "('Accepted and reviewed by matt (firstname)', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for accepted paper with Matt as reviewer', " +
+                "'home/papers/paper')," +
+                "('Rejected by matt (firstname) and john (firstname)', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for rejected by both matt and john', " +
+                "'home/papers/paper')," +
+                "('Rejected and reviewed by Taylor (firstname)', " +
+                "'This is a test paper to prove the capability of the advanced search. This paper should appear with a search for rejected paper with Taylor as reviewer', " +
                 "'home/papers/paper')"
         );
     }
+
+
 
     private void createPaperAuthorsJunctionTable() throws SQLException {
         Statement createTable = _dbConnection.createStatement();
@@ -139,12 +178,24 @@ public class InitializeDB extends HttpServlet {
                 "(7, 'jacques.chirac@gmail.com', 2)," +
                 "(8, 'seongwook.chae@gmail.com', 3)," +
                 "(9, 'jean-jacques.goldman@gmail.com', 1)," +
-                "(10, 'corentin.grandmaire@gmail.com', 3)," +
-                "(10, 'victor.hugo@gmail.com', 2)," +
-                "(10, 'francois.hollande@gmail.com', 1)," +
+                "(16, 'corentin.grandmaire@gmail.com', 3)," +
+                "(16, 'victor.hugo@gmail.com', 2)," +
+                "(16, 'francois.hollande@gmail.com', 1)," +
                 "(8, 'victor.hugo@gmail.com', 1)," +
                 "(8, 'corentin.grandmaire@gmail.com', 2)," +
                 "(8, 'florent.musse@gmail.com', 4)," +
+                "(10, 'mike.fotouhi@gmail.com', 1)," +
+                "(11, 'mike.fotouhi@gmail.com', 1)," +
+                "(12, 'mike.fotouhi@gmail.com', 2)," +
+                "(12, 'yewon.lu@gmail.com', 1)," +
+                "(13, 'mike.fotouhi@gmail.com', 1)," +
+                "(13, 'florian.oliverez@gmail.com', 2)," +
+                "(14, 'ishmike.fotouhish@gmail.com', 1)," +
+                "(15, 'fotouhish.ishmike@gmail.com', 1)," +
+                "(17, 'fotouhi.mike@gmail.com', 1)," +
+                "(18, 'jacques.chirac@gmail.com', 1)," +
+                "(19, 'steve.martins@gmail.com', 1)," +
+                "(20, 'fotouhi.mike@gmail.com', 1)," +
                 "(6, 'jean-pierre.dupont@gmail.com', 1)"
         );
     }
@@ -167,11 +218,13 @@ public class InitializeDB extends HttpServlet {
                 "('charles.degaulle@gmail.com', 'charles', 'de-gaulle')," +
                 "('emmanuel.macron@gmail.com', 'emmanuel', 'macron')," +
                 "('luc.besson@gmail.com', 'luc', 'besson')," +
-                "('tylor.swift@gmail.com', 'tylor', 'swift')," +
+                "('taylor.swift@gmail.com', 'taylor', 'swift')," +
                 "('eli.semoun@gmail.com', 'eli', 'semoun')," +
                 "('mimi.mathie@gmail.com', 'mimi', 'mathie')," +
                 "('j.k.rowling@gmail.com', 'j.k.', 'rowling')," +
                 "('neil.degrasse.tyson@gmail.com', 'neil', 'degrasse tyson')," +
+                "('matt.bank@gmail.com', 'matt', 'bank')," +
+                "('john.cownie@gmail.com', 'john', 'cownie')," +
                 "('julie.dupuit@gmail.com', 'julie', 'dupuit')"
         );
     }
@@ -198,6 +251,23 @@ public class InitializeDB extends HttpServlet {
         );
 
         createTable.executeUpdate("DELETE FROM reports");
+
+        createTable.executeUpdate("INSERT INTO reports (recommendation, paper_id, pc_member_id) VALUES " +
+                "('P', 3, 'robert.reynold@gmail.com')," +
+                "('R', 3, 'luc.besson@gmail.com')," +
+                "('P', 3, 'julie.dupuit@gmail.com')," +
+                "('R', 17, 'robert.reynold@gmail.com')," +
+                "('R', 17, 'matt.bank@gmail.com')," +
+                "('R', 18, 'matt.bank@gmail.com')," +
+                "('A', 18, 'luc.besson@gmail.com')," +
+                "('A', 18, 'taylor.swift@gmail.com')," +
+                "('P', 19, 'eli.semoun@gmail.com')," +
+                "('R', 19, 'matt.bank@gmail.com')," +
+                "('R', 19, 'john.cownie@gmail.com')," +
+                "('A', 20, 'matt.bank@gmail.com')," +
+                "('R', 20, 'john.cownie@gmail.com')," +
+                "('R', 20, 'taylor.swift@gmail.com')"
+        );
     }
 
 
