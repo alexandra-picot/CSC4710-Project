@@ -39,21 +39,21 @@ public class InitializeDB extends HttpServlet {
         createTable.executeUpdate("DELETE FROM authors");
 
         createTable.executeUpdate("INSERT INTO authors VALUES " +
-                "('jean.prevers@gmail.com', 'Jean', 'Prevers', 'Computer Science')," +
-                "('victor.hugo@gmail.com', 'Victor', 'Hugo', 'Computer Science')," +
-                "('christopher.paolini@gmail.com', 'Christopher', 'Paolini', 'Computer Science')," +
-                "('florent.musse@gmail.com', 'Florent', 'Musse', 'Computer Science')," +
-                "('jean-pierre.dupont@gmail.com', 'Jean-Pierre', 'Dupont', 'Computer Science')," +
-                "('jonathan.jean@gmail.com', 'Jonathan', 'Jean', 'Computer Science')," +
-                "('corentin.grandmaire@gmail.com', 'Corentin', 'Grandmaire', 'Computer Science')," +
-                "('steve.martins@gmail.com', 'Steve', 'Martins', 'Computer Science')," +
-                "('nicolas.sarcozy@gmail.com', 'Nicolas', 'Sarcozy', 'Computer Science')," +
-                "('francois.hollande@gmail.com', 'François', 'Hollande', 'Computer Science')," +
-                "('jacques.chirac@gmail.com', 'Jacques', 'Chirac', 'Computer Science')," +
-                "('claude.francois@gmail.com', 'Claude', 'François', 'Computer Science')," +
-                "('jean-jacques.goldman@gmail.com', 'Jean-Jacques', 'Goldman', 'Computer Science')," +
-                "('seongwook.chae@gmail.com', 'Seongwook', 'Chae', 'Computer Science')," +
-                "('florian.oliverez@gmail.com', 'Florian', 'Oliverez', 'Computer Science')"
+                "('jean.prevers@gmail.com', 'jean', 'prevers', 'Computer Science')," +
+                "('victor.hugo@gmail.com', 'victor', 'hugo', 'Computer Science')," +
+                "('christopher.paolini@gmail.com', 'christopher', 'paolini', 'Computer Science')," +
+                "('florent.musse@gmail.com', 'florent', 'musse', 'Computer Science')," +
+                "('jean-pierre.dupont@gmail.com', 'jean-pierre', 'dupont', 'Computer Science')," +
+                "('jonathan.jean@gmail.com', 'jonathan', 'jean', 'Computer Science')," +
+                "('corentin.grandmaire@gmail.com', 'corentin', 'grandmaire', 'Computer Science')," +
+                "('steve.martins@gmail.com', 'steve', 'martins', 'Computer Science')," +
+                "('nicolas.sarcozy@gmail.com', 'nicolas', 'sarcozy', 'Computer Science')," +
+                "('francois.hollande@gmail.com', 'françois', 'hollande', 'Computer Science')," +
+                "('jacques.chirac@gmail.com', 'jacques', 'chirac', 'Computer Science')," +
+                "('claude.francois@gmail.com', 'claude', 'françois', 'Computer Science')," +
+                "('jean-jacques.goldman@gmail.com', 'jean-jacques', 'goldman', 'Computer Science')," +
+                "('seongwook.chae@gmail.com', 'seongwook', 'chae', 'Computer Science')," +
+                "('florian.oliverez@gmail.com', 'florian', 'oliverez', 'Computer Science')"
         );
     }
 
@@ -163,16 +163,16 @@ public class InitializeDB extends HttpServlet {
         createTable.executeUpdate("DELETE FROM pc_members");
 
         createTable.executeUpdate("INSERT INTO pc_members VALUES " +
-                "('robert.reynold@gmail.com', 'Robert', 'Reynolds')," +
-                "('charles.degaulle@gmail.com', 'Charles', 'De-Gaulle')," +
-                "('emmanuel.macron@gmail.com', 'Emmanuel', 'Macron')," +
-                "('luc.besson@gmail.com', 'Luc', 'Besson')," +
-                "('tylor.swift@gmail.com', 'Tylor', 'Swift')," +
-                "('eli.semoun@gmail.com', 'Eli', 'Semoun')," +
-                "('mimi.mathie@gmail.com', 'Mimi', 'Mathie')," +
-                "('j.k.rowling@gmail.com', 'J.K.', 'Rowling')," +
-                "('neil.degrasse.tyson@gmail.com', 'Neil', 'deGrasse Tyson')," +
-                "('julie.dupuit@gmail.com', 'Julie', 'Dupuit')"
+                "('robert.reynold@gmail.com', 'robert', 'reynolds')," +
+                "('charles.degaulle@gmail.com', 'charles', 'de-gaulle')," +
+                "('emmanuel.macron@gmail.com', 'emmanuel', 'macron')," +
+                "('luc.besson@gmail.com', 'luc', 'besson')," +
+                "('tylor.swift@gmail.com', 'tylor', 'swift')," +
+                "('eli.semoun@gmail.com', 'eli', 'semoun')," +
+                "('mimi.mathie@gmail.com', 'mimi', 'mathie')," +
+                "('j.k.rowling@gmail.com', 'j.k.', 'rowling')," +
+                "('neil.degrasse.tyson@gmail.com', 'neil', 'degrasse tyson')," +
+                "('julie.dupuit@gmail.com', 'julie', 'dupuit')"
         );
     }
 

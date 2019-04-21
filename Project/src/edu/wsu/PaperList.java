@@ -51,7 +51,7 @@ public class PaperList extends HttpServlet {
         searchFieldsToBuildMethod.put("paperStatus", (req) -> {
             String[] toSearch = req.getParameterValues("groupPaperStatus");
 
-            if (toSearch == null ||toSearch.length == 0) {
+            if (toSearch == null || toSearch.length == 0) {
                 return "";
             }
 
@@ -72,9 +72,6 @@ public class PaperList extends HttpServlet {
             } else if (toSearchAL.contains("rejected")) {
                 sql = "SELECT paperid FROM papers INNER JOIN rejectedpaper rp ON paperid = rp.paper_id";
             }
-//            } else {
-//                //TODO: error
-//            }
             sql = "paperid IN (" + sql + ")";
 
             return sql;
@@ -171,7 +168,8 @@ public class PaperList extends HttpServlet {
                                               String groupFieldsName,
                                               Map<String, String> htmlToSql,
                                               Boolean exact) throws ValueException {
-        String searchInfo = req.getParameter(toSearchName);
+        String searchInfo = req.getParameter(toSearchName).trim().toLowerCase()
+                ;
         ArrayList<String> columnToSearch = new ArrayList<>();
         String[] fieldsToSearch = req.getParameterValues(groupFieldsName);
         if (fieldsToSearch == null || fieldsToSearch.length == 0) {

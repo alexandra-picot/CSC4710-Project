@@ -116,9 +116,9 @@ public abstract class AddEditPaperCommon extends HttpServlet {
         for (String number: letterEnumeration) {
             Map<String, String> tmp = new HashMap<>();
 
-            String email = req.getParameter("email" + number + "Author").trim();
-            String firstName = req.getParameter("firstName" + number + "Author").trim();
-            String lastName = req.getParameter("lastName" + number + "Author").trim();
+            String email = req.getParameter("email" + number + "Author").trim().toLowerCase();
+            String firstName = req.getParameter("firstName" + number + "Author").trim().toLowerCase();
+            String lastName = req.getParameter("lastName" + number + "Author").trim().toLowerCase();
             tmp.put(Person.PERSON_EMAIL_KEY, email);
             tmp.put(Person.PERSON_FIRSTNAME_KEY, firstName);
             tmp.put(Person.PERSON_LASTNAME_KEY, lastName);
