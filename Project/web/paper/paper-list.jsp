@@ -34,7 +34,7 @@ To change this template use File | Settings | File Templates.
         <div class="container-fluid bg-dark">
             <div class="row align-items-center">
                 <div class="col">
-                    <h2 align="left" class="ml-3 text-white"><a href="${pageContext.request.contextPath}/paper-list" class="text-white">List of papers</a></h2>
+                    <h2 align="left" class="ml-3 text-white"><a href="${pageContext.request.contextPath}/paper/paper-list" class="text-white">List of papers</a></h2>
                 </div>
                 <div class="col d-flex flex-row-reverse mt-3 align-items-start">
                     <button class="mr-2 btn btn-light order-1" onclick="showAdvancedSearch()">Advanced Search</button>
