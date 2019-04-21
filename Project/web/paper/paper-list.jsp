@@ -21,7 +21,7 @@ To change this template use File | Settings | File Templates.
         <div class="container-fluid">
             <div class="row">
                 <div class="col d-flex flex-row-reverse">
-                    <form action="${pageContext.request.contextPath}/add-paper">
+                    <form action="${pageContext.request.contextPath}/paper/add-paper">
                         <button type="submit" class="btn btn-primary">Create new paper</button>
                     </form>
                 </div>
@@ -325,9 +325,9 @@ To change this template use File | Settings | File Templates.
                     <c:forEach items="${paperList}" var="paper">
                         <tr>
                             <th scope="row">${paper['paperid']}</th>
-                            <td><a href="${pageContext.request.contextPath}/edit-paper/${paper['paperid']}">${paper['title']}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/paper/edit-paper/${paper['paperid']}">${paper['title']}</a></td>
                             <td>${paper['abstract']}</td>
-                            <td><a href="${pageContext.request.contextPath}/delete-paper/${paper['paperid']}" onclick="return confirm('Are you sure you want to delete the paper named :\n${paper["title"]}');">Delete</a></td>
+                            <td><a href="${pageContext.request.contextPath}/paper/delete-paper/${paper['paperid']}" onclick="return confirm('Are you sure you want to delete the paper named :\n${paper["title"]}');">Delete</a></td>
                         </tr>
                     </c:forEach>
                 </table>

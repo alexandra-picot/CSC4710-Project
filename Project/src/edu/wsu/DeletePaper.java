@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Statement;
 
-@WebServlet("/delete-paper/*")
+@WebServlet("/paper/delete-paper/*")
 public class DeletePaper extends HttpServlet {
 
     @Override
@@ -26,6 +26,6 @@ public class DeletePaper extends HttpServlet {
             System.out.println(e);
         }
         dbConnection.closeConnection();
-        req.getRequestDispatcher("/paper-list").forward(req, resp);
+        req.getRequestDispatcher("/paper/paper-list").forward(req, resp);
     }
 }

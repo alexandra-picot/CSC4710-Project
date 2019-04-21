@@ -33,7 +33,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/index.jsp">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/paper-list">Paper list<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/paper/paper-list">Paper list<span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">

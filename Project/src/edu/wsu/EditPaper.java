@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
-@WebServlet("/edit-paper/*")
+@WebServlet("/paper/edit-paper/*")
 public class EditPaper extends AddEditPaperCommon {
 
     @Override
@@ -37,12 +37,12 @@ public class EditPaper extends AddEditPaperCommon {
         req.setAttribute("pcMembers", pcMembers);
         req.setAttribute("paperReviewers", paperReviewers);
 
-        req.getRequestDispatcher("/edit-paper.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/edit-paper.jsp").forward(req, resp);
     }
 
     @Override
     void forwardError(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/edit-paper.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/edit-paper.jsp").forward(req, resp);
     }
 
     @Override
@@ -169,6 +169,6 @@ public class EditPaper extends AddEditPaperCommon {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
 
-        req.getRequestDispatcher("/successful-paper-edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/successful-paper-edit.jsp").forward(req, resp);
     }
 }

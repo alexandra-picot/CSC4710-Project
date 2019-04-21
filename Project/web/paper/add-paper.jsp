@@ -12,7 +12,7 @@
 
     <jsp:body>
 
-        <t:add_edit_paper_form action_link="add-paper"
+        <t:add_edit_paper_form action_link="paper/add-paper"
                                title="${paperDetails.title}"
                                description="${paperDetails.description}"
                                author_list="${paperAuthors}"

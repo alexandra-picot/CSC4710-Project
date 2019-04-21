@@ -21,7 +21,7 @@
             </c:when>
             <c:otherwise>
 
-                <t:add_edit_paper_form action_link="edit-paper"
+                <t:add_edit_paper_form action_link="paper/edit-paper"
                                        title="${paperDetails.title}"
                                        description="${paperDetails.description}"
                                        author_list="${paperAuthors}"

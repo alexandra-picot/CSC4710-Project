@@ -19,7 +19,7 @@ interface StringFunction {
     String func(HttpServletRequest req);
 }
 
-@WebServlet("/paper-list")
+@WebServlet("/paper/paper-list")
 public class PaperList extends HttpServlet {
 
     private DBConnection _dbConnection;
@@ -253,7 +253,7 @@ public class PaperList extends HttpServlet {
         req.setAttribute("paperList", paperList);
         req.setAttribute("authorsList", authorsList);
         req.setAttribute("pcMembersList", pcMembersList);
-        req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/paper-list.jsp").forward(req, resp);
     }
 
     @Override
@@ -325,6 +325,6 @@ public class PaperList extends HttpServlet {
         req.setAttribute("paperList", paperList);
         req.setAttribute("authorsList", authorsList);
         req.setAttribute("pcMembersList", pcMembersList);
-        req.getRequestDispatcher("/paper-list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/paper-list.jsp").forward(req, resp);
     }
 }

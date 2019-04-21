@@ -8,9 +8,10 @@
 <%@page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<t:base_site page_title="Successful add - edit paper">
+<t:base_site page_title="Successful paper add">
 
     <jsp:body>
-        <h2>Succcesful</h2>
+        <h2>You successfully added the paper: ${paperTitle}</h2>
     </jsp:body>
+
 </t:base_site>

@@ -13,7 +13,7 @@
     <jsp:body>
         <h1>You've successfully saved the reviewers for this paper!</h1>
 
-        <p><a href="paper-list">Return to paper list</a></p>
+        <p><a href="paper/paper-list">Return to paper list</a></p>
     </jsp:body>
 
 </t:base_site>

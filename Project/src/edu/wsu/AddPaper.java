@@ -12,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
 
-@WebServlet("/add-paper")
+@WebServlet("/paper/add-paper")
 public class AddPaper extends AddEditPaperCommon {
 
     @Override
@@ -27,12 +27,12 @@ public class AddPaper extends AddEditPaperCommon {
 
         req.setAttribute("pcMembers", pcMembers);
 
-        req.getRequestDispatcher("/add-paper.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/add-paper.jsp").forward(req, resp);
     }
 
     @Override
     void forwardError(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/add-paper.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/add-paper.jsp").forward(req, resp);
     }
 
     @Override
@@ -100,6 +100,6 @@ public class AddPaper extends AddEditPaperCommon {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPost(req, resp);
 
-        req.getRequestDispatcher("/successful-paper-add.jsp").forward(req, resp);
+        req.getRequestDispatcher("/paper/successful-paper-add.jsp").forward(req, resp);
     }
 }
