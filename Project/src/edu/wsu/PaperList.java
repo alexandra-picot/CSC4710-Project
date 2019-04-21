@@ -1,5 +1,7 @@
 package edu.wsu;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,6 +50,11 @@ public class PaperList extends HttpServlet {
     static {
         searchFieldsToBuildMethod.put("paperStatus", (req) -> {
             String[] toSearch = req.getParameterValues("groupPaperStatus");
+
+            if (toSearch == null ||toSearch.length == 0) {
+                return "";
+            }
+
             ArrayList<String> toSearchAL = new ArrayList<>(Arrays.asList(toSearch));
             String sql = "";
             if (toSearchAL.contains("pending") && toSearchAL.contains("accepted") && toSearchAL.contains("rejected")) {
@@ -75,23 +82,26 @@ public class PaperList extends HttpServlet {
         searchFieldsToBuildMethod.put("authorFields", (req) -> {
             String[] exactSearch = req.getParameterValues("checkAuthorExactSearch");
             String sql;
-            if (exactSearch.length == 1 && exactSearch[0].equals("exact")) {
-                sql = buildFieldSearchSql(req,
-                        "authorToSearch",
-                        "groupAuthorFields",
-                        fieldHtmlToSqlAuthor, true);
-            } else {
-                sql = buildFieldSearchSql(req,
-                        "authorToSearch",
-                        "groupAuthorFields",
-                        fieldHtmlToSqlAuthor);
+            try {
+                if (exactSearch != null && exactSearch.length == 1 && exactSearch[0].equals("exact")) {
+                    sql = buildFieldSearchSql(req,
+                            "authorToSearch",
+                            "groupAuthorFields",
+                            fieldHtmlToSqlAuthor, true);
+                } else {
+                    sql = buildFieldSearchSql(req,
+                            "authorToSearch",
+                            "groupAuthorFields",
+                            fieldHtmlToSqlAuthor);
+                }
+            } catch (ValueException e) {
+                System.out.println(e);
+                return "";
             }
 
-
-             sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
+            sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
                     "INNER JOIN authors a on pa.author_id = a.email " +
                     "WHERE " + sql + ")";
-            System.out.println(sql);
             return sql;
         });
         searchFieldsToBuildMethod.put("authorSpecial", (req) -> {
@@ -107,49 +117,69 @@ public class PaperList extends HttpServlet {
                 sql = "paperid IN (SELECT paper_id FROM paper_authors " +
                         "WHERE contribution_significance = " + selectAuthorContribution + ")";
             }
-            System.out.println(sql);
             return sql;
         });
         searchFieldsToBuildMethod.put("reviewerFields", (req) -> {
             String[] exactSearch = req.getParameterValues("checkReviewerExactSearch");
             String sql;
-            if (exactSearch.length == 1 && exactSearch[0].equals("exact")) {
-                sql = buildFieldSearchSql(req,
-                        "reviewerToSearch",
-                        "groupReviewerFields",
-                        fieldHtmlToSqlReviewer, true);
-            } else {
-                sql = buildFieldSearchSql(req,
-                        "reviewerToSearch",
-                        "groupReviewerFields",
-                        fieldHtmlToSqlReviewer);
-            }
+            try {
+                if (exactSearch != null && exactSearch.length == 1 && exactSearch[0].equals("exact")) {
+                    sql = buildFieldSearchSql(req,
+                            "reviewerToSearch",
+                            "groupReviewerFields",
+                            fieldHtmlToSqlReviewer, true);
+                } else {
+                    sql = buildFieldSearchSql(req,
+                            "reviewerToSearch",
+                            "groupReviewerFields",
+                            fieldHtmlToSqlReviewer);
+                }
+            } catch (ValueException e) {
+                    System.out.println(e);
+                    return "";
+                }
             sql = "paperid IN (SELECT DISTINCT rep.paper_id FROM reports rep " +
                     "INNER JOIN pc_members pm on rep.pc_member_id = pm.email " +
                     "WHERE " + sql + ")";
-            System.out.println(sql);
             return sql;
         });
         searchFieldsToBuildMethod.put("paperFields", (req) -> {
-            String sql = buildFieldSearchSql(req,
-                    "paperToSearch",
-                    "groupPaperFields",
-                    fieldHtmlToSqlPaper);
-
+            String sql;
+            try {
+                sql = buildFieldSearchSql(req,
+                        "paperToSearch",
+                        "groupPaperFields",
+                        fieldHtmlToSqlPaper);
+            } catch (ValueException e) {
+                System.out.println(e);
+                return "";
+            }
             sql = "(" + sql + ")";
-            System.out.println(sql);
             return sql;
         });
     }
 
-    private static String buildFieldSearchSql(HttpServletRequest req, String toSearchName, String groupFieldsName, Map<String, String> htmlToSql) {
+    private static String buildFieldSearchSql(HttpServletRequest req,
+                                              String toSearchName,
+                                              String groupFieldsName,
+                                              Map<String, String> htmlToSql) throws ValueException {
         return buildFieldSearchSql(req, toSearchName, groupFieldsName, htmlToSql, false);
     }
 
-    private static String buildFieldSearchSql(HttpServletRequest req, String toSearchName, String groupFieldsName, Map<String, String> htmlToSql, Boolean exact) {
+    private static String buildFieldSearchSql(HttpServletRequest req,
+                                              String toSearchName,
+                                              String groupFieldsName,
+                                              Map<String, String> htmlToSql,
+                                              Boolean exact) throws ValueException {
         String searchInfo = req.getParameter(toSearchName);
         ArrayList<String> columnToSearch = new ArrayList<>();
         String[] fieldsToSearch = req.getParameterValues(groupFieldsName);
+        if (fieldsToSearch == null || fieldsToSearch.length == 0) {
+            throw new ValueException("No argument selected.");
+        }
+        if (searchInfo.isEmpty()) {
+            throw new ValueException("Nothing to search");
+        }
         String preCompString;
         String postCompString;
         if (exact) {
@@ -236,8 +266,6 @@ public class PaperList extends HttpServlet {
 
         String standardSearch = req.getParameter("standardSearch");
 
-        System.out.println(standardSearch);
-
         if (standardSearch != null) {
             String searchInfo = req.getParameter("searchPaper");
 
@@ -249,20 +277,26 @@ public class PaperList extends HttpServlet {
 
         } else {
             String searchType = req.getParameter("searchType");
-            System.out.println(searchType);
             if (searchType.equals("fieldSearch")) {
                 String[] fieldsToSearch = req.getParameterValues("toSearchGroup");
 
                 ArrayList<String> conditionsToJoin = new ArrayList<>();
                 for (String field: fieldsToSearch) {
-                    System.out.println(field);
-                    conditionsToJoin.add(searchFieldsToBuildMethod.get(field).func(req));
+                    String tmp = searchFieldsToBuildMethod.get(field).func(req);
+                    if (tmp.isEmpty()) {
+                        continue;
+                    }
+                    conditionsToJoin.add(tmp);
                 }
 
-                String sql = String.join(" AND ", conditionsToJoin);
+                String sql;
+                if (conditionsToJoin.isEmpty()) {
+                    sql = "SELECT * FROM papers";
+                } else {
+                    sql = String.join(" AND ", conditionsToJoin);
+                    sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
+                }
 
-                sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
-                System.out.println(sql);
                 paperList = getPaperList(sql);
             } else {
                 String specialSearch = req.getParameter("groupSpecialSearch");
