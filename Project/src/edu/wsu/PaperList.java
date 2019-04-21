@@ -60,17 +60,17 @@ public class PaperList extends HttpServlet {
             if (toSearchAL.contains("pending") && toSearchAL.contains("accepted") && toSearchAL.contains("rejected")) {
                 sql = "SELECT paper_id FROM reports GROUP BY paper_id";
             } else if (toSearchAL.contains("pending") && toSearchAL.contains("accepted")) {
-                sql = "SELECT r.paper_id FROM reports r, rejectedpaper rp WHERE r.paper_id != rp.paper_id GROUP BY r.paper_id";
+                sql = "SELECT paper_id FROM reports WHERE paper_id NOT IN (SELECT * FROM rejectedpaper) GROUP BY paper_id";
             } else if (toSearchAL.contains("pending") && toSearchAL.contains("rejected")) {
-                sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap WHERE r.paper_id != ap.paper_id GROUP BY r.paper_id";
+                sql = "SELECT paper_id FROM reports WHERE paper_id NOT IN (SELECT * FROM acceptedpaper) GROUP BY paper_id";
             } else if (toSearchAL.contains("rejected") && toSearchAL.contains("accepted")) {
                 sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap, rejectedpaper rp WHERE r.paper_id = ap.paper_id OR r.paper_id = rp.paper_id GROUP BY r.paper_id";
             } else if (toSearchAL.contains("pending")) {
-                sql = "SELECT r.paper_id FROM reports r, acceptedpaper ap, rejectedpaper rp WHERE r.paper_id != ap.paper_id AND r.paper_id != rp.paper_id GROUP BY r.paper_id";
+                sql = "SELECT paper_id FROM reports WHERE paper_id NOT IN (SELECT * FROM acceptedpaper) AND paper_id NOT IN (SELECT * FROM rejectedpaper) GROUP BY paper_id";
             } else if (toSearchAL.contains("accepted")) {
-                sql = "SELECT paperid FROM papers INNER JOIN acceptedpaper ap ON paperid = ap.paper_id";
+                sql = "SELECT * FROM acceptedpaper";
             } else if (toSearchAL.contains("rejected")) {
-                sql = "SELECT paperid FROM papers INNER JOIN rejectedpaper rp ON paperid = rp.paper_id";
+                sql = "SELECT * FROM rejectedpaper";
             }
             sql = "paperid IN (" + sql + ")";
 
@@ -299,6 +299,7 @@ public class PaperList extends HttpServlet {
                         sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
                     }
                 }
+                System.out.println(sql);
                 paperList = getPaperList(sql);
             } else {
                 String specialSearch = req.getParameter("groupSpecialSearch");
