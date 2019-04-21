@@ -1,4 +1,4 @@
-CSC 4710 Project, part 1
+CSC 4710 Project, part 2
 
 Group members:
 
@@ -8,21 +8,31 @@ ft7834	Mrinnal Muralidhar	mrinnal.muralidhar@wayne.edu
 
 Work separation Part1:
 
-Vincent:    - Setup of both our development environments
-		    - Design of the ER diagram, Files: SQLTables.png, projectP1.png
-		    - Initialization of the database (Creation of the tables and population of the tables) (SQL statements and Java/Html code) Files: InitializeDB.java, initialize-db.jsp
-		    - Creation of the class DBConnection, global java class to connect to the database
-		    - Creation of the base_site.tag to have common site template
-		    - Creation of the template with boostrap
-		    - Conversion of all html and jsp files into jsp files with the base_site tag
-		    - Conversion and all Java scriptlet in jsp files into JSTL
-		    - Save reviewers into the database + form validation in JavaScript on paper-details.jsp
-		    - All the advanced and standard search in the paper-list page (points 4/5/6/9/10 of the subject)
+Vincent:
+
+		- Setup of both our development environments
+		- Design of the ER diagram 			(SQLTables.png, projectP1.png)
+		- Initialization of the database - Creation of the tables and population of the tables, SQL statements and Java/Html code - (InitializeDB.java, initialize-db.jsp)
+		- Creation of the class DBConnection, global java class to connect to the database		(DBConnection.java)
+		- Creation of a JSTL tag - base_site - to have common site template for every webpage		(base_site.tag)
+		- Add boostrap4 (https://getbootstrap.com) to the project, especially in the base_site tag	(base_site.tag)
+		- Conversion of all HTML and JSP files into JSP files that implements the base_site JSTL tag	(*.html, *.jsp
+		- Conversion and all Java Scriptlet (Java code inside JSP files) into JSTL code			(*.jsp)
+		- All the advanced and standard search in the paper-list page (points 4/5/6/9/10 of the subject)	(PaperList.java, paper-list.jsp, PaperListFilterHandling.js)
+		- Add/Edit/Delete a paper from the list of papers							(AddPaper.java, EditPaper.java, DeletePaper.java, Author.java, Person.java, PaperAuthor.java, AddEditPaperCommon.java, add-paper.jsp, edit-paper.jsp, add_edit_paper_form.tag, successful-paper-add.jsp, successful-paper-edit.jsp)
+		- Add test data into the Database to test part2 requirements					(InitializeDB.java)
+
+
+		- !HAS BEEN DELETED! Save reviewers into the database + form validation in JavaScript on paper-details.jsp
 
 
 Mrinnal and Vincent:
-            - Display of the paper list, Files: PaperList.java, paper-list.jsp, paperlist.css
-            - Display of the papers' details, Files: PaperDetails.java, paper-details.jsp
+		- Display of the paper list, Files: PaperList.java, paper-list.jsp, paperlist.css
+
+
+		- !HAS BEEN DELETED! Display of the papers' details, Files: PaperDetails.java, paper-details.jsp
+
+
 
 
 HOW TO INSTALL:
