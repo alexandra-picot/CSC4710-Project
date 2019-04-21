@@ -277,24 +277,28 @@ public class PaperList extends HttpServlet {
             String searchType = req.getParameter("searchType");
             if (searchType.equals("fieldSearch")) {
                 String[] fieldsToSearch = req.getParameterValues("toSearchGroup");
-
-                ArrayList<String> conditionsToJoin = new ArrayList<>();
-                for (String field: fieldsToSearch) {
-                    String tmp = searchFieldsToBuildMethod.get(field).func(req);
-                    if (tmp.isEmpty()) {
-                        continue;
-                    }
-                    conditionsToJoin.add(tmp);
-                }
-
                 String sql;
-                if (conditionsToJoin.isEmpty()) {
+
+                if (fieldsToSearch == null || fieldsToSearch.length == 0) {
                     sql = "SELECT * FROM papers";
                 } else {
-                    sql = String.join(" AND ", conditionsToJoin);
-                    sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
-                }
+                    ArrayList<String> conditionsToJoin = new ArrayList<>();
+                    for (String field: fieldsToSearch) {
+                        String tmp = searchFieldsToBuildMethod.get(field).func(req);
+                        if (tmp.isEmpty()) {
+                            continue;
+                        }
+                        conditionsToJoin.add(tmp);
+                    }
 
+
+                    if (conditionsToJoin.isEmpty()) {
+                        sql = "SELECT * FROM papers";
+                    } else {
+                        sql = String.join(" AND ", conditionsToJoin);
+                        sql = "SELECT paperid, title, abstract FROM papers WHERE " + sql;
+                    }
+                }
                 paperList = getPaperList(sql);
             } else {
                 String specialSearch = req.getParameter("groupSpecialSearch");
