@@ -78,42 +78,41 @@ public class PaperList extends HttpServlet {
         });
         searchFieldsToBuildMethod.put("authorFields", (req) -> {
             String[] exactSearch = req.getParameterValues("checkAuthorExactSearch");
-            String sql;
+            ArrayList<String> toJoin = new ArrayList<>();
             try {
                 if (exactSearch != null && exactSearch.length == 1 && exactSearch[0].equals("exact")) {
-                    sql = buildFieldSearchSql(req,
+                    toJoin.add("(" + buildFieldSearchSql(req,
                             "authorToSearch",
                             "groupAuthorFields",
-                            fieldHtmlToSqlAuthor, true);
+                            fieldHtmlToSqlAuthor, true) + ")");
                 } else {
-                    sql = buildFieldSearchSql(req,
+                    toJoin.add("(" + buildFieldSearchSql(req,
                             "authorToSearch",
                             "groupAuthorFields",
-                            fieldHtmlToSqlAuthor);
+                            fieldHtmlToSqlAuthor) + ")");
                 }
             } catch (ValueException e) {
                 System.out.println(e);
+            }
+
+            String[] authorSpecialGroup = req.getParameterValues("authorSpecialGroup");
+            if (authorSpecialGroup != null && authorSpecialGroup.length == 1 && authorSpecialGroup[0].equals("authorSpecial")) {
+                String authorSpecial = req.getParameter("groupAuthorSpecial");
+                if (authorSpecial.equals("single")) {
+                    toJoin.add("(SELECT COUNT(*) FROM paper_authors WHERE paper_id = pa.paper_id) = 1");
+                } else {
+                    String selectAuthorContribution = req.getParameter("selectAuthorContribution");
+                    toJoin.add("contribution_significance = " + selectAuthorContribution);
+                }
+            }
+            if (toJoin.isEmpty()) {
                 return "";
             }
 
+            String sql = String.join(" AND ", toJoin);
             sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
                     "INNER JOIN authors a on pa.author_id = a.email " +
                     "WHERE " + sql + ")";
-            return sql;
-        });
-        searchFieldsToBuildMethod.put("authorSpecial", (req) -> {
-            String authorSpecial = req.getParameter("groupAuthorSpecial");
-            String sql;
-            if (authorSpecial.equals("single")) {
-                sql = "paperid IN (SELECT DISTINCT pa.paper_id FROM paper_authors pa " +
-                        "WHERE (" +
-                        "SELECT COUNT(*) FROM paper_authors WHERE paper_id = pa.paper_id" +
-                        ") = 1)";
-            } else {
-                String selectAuthorContribution = req.getParameter("selectAuthorContribution");
-                sql = "paperid IN (SELECT paper_id FROM paper_authors " +
-                        "WHERE contribution_significance = " + selectAuthorContribution + ")";
-            }
             return sql;
         });
         searchFieldsToBuildMethod.put("reviewerFields", (req) -> {

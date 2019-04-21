@@ -100,79 +100,77 @@ To change this template use File | Settings | File Templates.
                         </div>
                     </div>
 
-
                     <div class="form-inline mb-3">
                         <div class="form-check form-check-inline">
                             <input id="authorFields" type="checkbox" name="toSearchGroup" value="authorFields" class="form-check-input" onclick="showAuthorFields()">
                             <label for="authorFields" class="form-check-label text-white"><strong>Authors' fields</strong></label>
                         </div>
-
-                        <div id="divAuthorFields" style="display: none">
-                            <div class="form-inline">
-                                <div class="form-check form-check-inline">
-                                    <input id="authorEmail" type="checkbox" name="groupAuthorFields" value="email" class="form-check-input">
-                                    <label for="authorEmail" class="form-check-label">Email</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input id="authorFirstName" type="checkbox" name="groupAuthorFields" value="firstname" class="form-check-input">
-                                    <label for="authorFirstName" class="form-check-label">First name</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input id="authorLastName" type="checkbox" name="groupAuthorFields"  value="lastname" class="form-check-input">
-                                    <label for="authorLastName" class="form-check-label">Last name</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input id="authorAffiliation" type="checkbox" name="groupAuthorFields" value="affiliation" class="form-check-input">
-                                    <label for="authorAffiliation" class="form-check-label">Affiliations</label>
-                                </div>
-
-                                <div class="form-inline ml-3 ">
-                                    <label for="authorToSearch"><strong>Search for:</strong></label>
-                                    <input id="authorToSearch" name="authorToSearch" type="search" class="form-control ml-1" placeholder="Search in authors...">
-                                </div>
-                                <div class="form-check form-check-inline ml-2">
-                                    <input id="authorExactSearch" type="checkbox" name="checkAuthorExactSearch" value="exact" class="form-check-input">
-                                    <label for="authorExactSearch" class="form-check-label">Search exactly</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-inline mb-3">
-
-                        <div class="form-check form-check-inline">
-                            <input id="authorSpecial" type="checkbox" name="toSearchGroup" value="authorSpecial" class="form-check-input" onclick="showAuthorSpecial()">
-                            <label for="authorSpecial" class="form-check-label text-white"><strong>Authors Special Options</strong></label>
-                        </div>
-
-                        <div id="divAuthorSpecial" style="display: none">
-                            <div class="form-inline">
-                                <div class="form-check form-check-inline">
-                                    <input id="singleAuthor" type="radio" name="groupAuthorSpecial" value="single" class="form-check-input" checked onclick="showAuthorContributionSelect()">
-                                    <label for="singleAuthor" class="form-check-label">Single author</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input id="authorContribution" type="radio" name="groupAuthorSpecial"  value="contribution" class="form-check-input" onclick="showAuthorContributionSelect()">
-                                    <label for="authorContribution" class="form-check-label">Contribution importance</label>
-                                </div>
+                        <div id="divAuthorFields" class="container-fluid ml-5" style="display: none">
+                            <div class="row mb-2">
                                 <div class="form-inline">
-                                        <%--
-                                        TODO: show select list based on the max contribution in the DB
-                                        --%>
-                                    <select id="selectAuthorContribution" name="selectAuthorContribution" class="form-control" disabled>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
+                                    <div class="form-check form-check-inline">
+                                        <input id="authorEmail" type="checkbox" name="groupAuthorFields" value="email" class="form-check-input">
+                                        <label for="authorEmail" class="form-check-label">Email</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input id="authorFirstName" type="checkbox" name="groupAuthorFields" value="firstname" class="form-check-input">
+                                        <label for="authorFirstName" class="form-check-label">First name</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input id="authorLastName" type="checkbox" name="groupAuthorFields"  value="lastname" class="form-check-input">
+                                        <label for="authorLastName" class="form-check-label">Last name</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input id="authorAffiliation" type="checkbox" name="groupAuthorFields" value="affiliation" class="form-check-input">
+                                        <label for="authorAffiliation" class="form-check-label">Affiliations</label>
+                                    </div>
+
+                                    <div class="form-inline ml-3 ">
+                                        <label for="authorToSearch"><strong>Search for:</strong></label>
+                                        <input id="authorToSearch" name="authorToSearch" type="search" class="form-control ml-1" placeholder="Search in authors...">
+                                    </div>
+                                    <div class="form-check form-check-inline ml-2">
+                                        <input id="authorExactSearch" type="checkbox" name="checkAuthorExactSearch" value="exact" class="form-check-input">
+                                        <label for="authorExactSearch" class="form-check-label">Search exactly</label>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="row form-inline">
+                                <div  class="form-check form-check-inline" >
+                                    <input id="authorSpecial" type="checkbox" name="authorSpecialGroup" value="authorSpecial" class="form-check-input" onclick="showAuthorSpecial()">
+                                    <label for="authorSpecial" class="form-check-label"><strong>Authors Special Options</strong></label>
+                                </div>
+                                <div id="divAuthorSpecial" style="display: none">
+                                    <div class="form-inline">
+
+                                        <div class="form-check form-check-inline">
+                                            <input id="singleAuthor" type="radio" name="groupAuthorSpecial" value="single" class="form-check-input" checked onclick="showAuthorContributionSelect()">
+                                            <label for="singleAuthor" class="form-check-label">Single author</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input id="authorContribution" type="radio" name="groupAuthorSpecial"  value="contribution" class="form-check-input" onclick="showAuthorContributionSelect()">
+                                            <label for="authorContribution" class="form-check-label">Contribution importance</label>
+                                        </div>
+                                        <div class="form-inline">
+                                            <select id="selectAuthorContribution" name="selectAuthorContribution" class="form-control" disabled>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
-
 
                     <div class="form-inline mb-3">
                         <div class="form-check form-check-inline">
@@ -208,8 +206,7 @@ To change this template use File | Settings | File Templates.
                             </div>
                         </div>
                     </div>
-
-
+                    
                     <div class="form-inline">
 
                         <div class="form-check form-check-inline">

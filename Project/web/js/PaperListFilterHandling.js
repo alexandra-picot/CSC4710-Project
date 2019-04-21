@@ -24,23 +24,23 @@ function genericShowFieldSearch(divName, checkboxName) {
 }
 
 function showPaperStatus() {
-    genericShowFieldSearch("divPaperStatus", "paperStatus")
+    genericShowFieldSearch("divPaperStatus", "paperStatus");
 }
 
 function showAuthorFields() {
-    genericShowFieldSearch("divAuthorFields", "authorFields")
+    genericShowFieldSearch("divAuthorFields", "authorFields");
 }
 
 function showAuthorSpecial() {
-    genericShowFieldSearch("divAuthorSpecial", "authorSpecial")
+    genericShowFieldSearch("divAuthorSpecial", "authorSpecial");
 }
 
 function showReviewerFields() {
-    genericShowFieldSearch("divReviewerFields", "reviewerFields")
+    genericShowFieldSearch("divReviewerFields", "reviewerFields");
 }
 
 function showPaperFields() {
-    genericShowFieldSearch("divPaperFields", "paperFields")
+    genericShowFieldSearch("divPaperFields", "paperFields");
 }
 
 function showAuthorContributionSelect() {
