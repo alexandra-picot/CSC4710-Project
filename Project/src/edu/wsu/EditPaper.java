@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -47,9 +48,13 @@ public class EditPaper extends AddEditPaperCommon {
     @Override
     void handlePaperDetails(Map<String, String> paperDetails) throws SQLException {
         String sql = "UPDATE papers " +
-                "SET title = '" + paperDetails.get("title") + "', abstract = '" + paperDetails.get("description") +
-                "' WHERE paperid = " + paperDetails.get("paperid");
-        _dbConnection.createStatement().executeUpdate(sql);
+                "SET title = ?, abstract = ? WHERE paperid = ?";
+        PreparedStatement statement = _dbConnection.getConnection().prepareStatement(sql);
+        statement.setString(1, paperDetails.get("title"));
+        statement.setString(2, paperDetails.get("description"));
+        statement.setString(3, paperDetails.get("paperid"));
+
+        statement.executeUpdate();
     }
 
     @Override

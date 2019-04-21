@@ -37,10 +37,13 @@ public class AddPaper extends AddEditPaperCommon {
 
     @Override
     void handlePaperDetails(Map<String, String> paperDetails) throws SQLException {
-        String sql = "INSERT INTO papers (title, abstract, pdf) VALUES (" +
-                "'" + paperDetails.get("title") + "', '" + paperDetails.get("description") + "', 'home/papers/paper')";
+        String sql = "INSERT INTO papers (title, abstract, pdf) VALUES (?, ?, 'home/papers/paper')";
+
         PreparedStatement statement = _dbConnection.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1, paperDetails.get("title"));
+        statement.setString(2, paperDetails.get("description"));
         statement.executeUpdate();
+
         try {
             ResultSet rsGeneratedKeys = statement.getGeneratedKeys();
 
