@@ -44,11 +44,11 @@ HOW TO INSTALL:
 
     - Be sure to have Tomcat (version 9+) installed and Java SDK/JRE 8+
 
-    - Put the .war file (csc4710_gr9185ft7834_part1.war) inside the webapps folder of tomcat
+    - Put the .war file (csc4710_gr9185ft7834_part2.war) inside the webapps folder of tomcat
 
     - Start Tomcat
 
-    - Go to: localhost:8080/csc4710_gr9185ft7834_part1/
+    - Go to: localhost:8080/csc4710_gr9185ft7834_part2/
 
     - You're all set, have fun!
 
