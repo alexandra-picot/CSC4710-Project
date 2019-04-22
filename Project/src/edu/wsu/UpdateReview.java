@@ -45,22 +45,22 @@ public class UpdateReview extends HttpServlet
 
         if(request.getParameter("update")!=null)
         {
-            DBConnection i = new  DBConnection();
+            UpdateDataBase i = new  UpdateDataBase();
             int x = i.updateReview(reportid,sdate,comm,recommendation,paperid,memberid);
             System.out.print(x);
         }
 
         if(request.getParameter("delete")!=null)
         {
-            DBConnection b = new  DBConnection();
-            int y = b.deleteReview(reportid,sdate,comm,recommendation,paperid,memberid);
+            UpdateDataBase b = new  UpdateDataBase();
+            int y = b.deleteReview(reportid);
             System.out.print(y);
         }
 
         if(request.getParameter("addnew")!=null)
         {
-            DBConnection c = new  DBConnection();
-            int z = c.addReview(sdateX,commX,recommendationX, paperidX,memberidX);
+            UpdateDataBase c = new  UpdateDataBase();
+            int z = c.insertReview(sdateX,commX,recommendationX, paperidX,memberidX);
             System.out.print(z);
         }
         request.getRequestDispatcher("updateReview.jsp").forward(request, response);

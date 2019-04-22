@@ -33,7 +33,7 @@ public class UpdatePcMember extends HttpServlet
         if(request.getParameter("update") != null)
         {
 
-            DBConnection i = new DBConnection();
+            UpdateDataBase i = new UpdateDataBase();
 
             int x = i.updatePCMember(memberid, email, name);
 
@@ -43,9 +43,9 @@ public class UpdatePcMember extends HttpServlet
 
         if(request.getParameter("delete") != null){
 
-            DBConnection b = new DBConnection();
+            UpdateDataBase b = new UpdateDataBase();
 
-            int y = b.deletePCMember(memberid, email, name);
+            int y = b.deletePCMember(memberid);
 
             System.out.print(y);
 
@@ -53,9 +53,9 @@ public class UpdatePcMember extends HttpServlet
 
         if(request.getParameter("addnew") != null){
 
-            DBConnection c = new DBConnection();
+            UpdateDataBase c = new UpdateDataBase();
 
-            int z = c.addPCMember(emailX, nameX);
+            int z = c.insertPCMember(emailX, nameX);
 
             System.out.print(z);
 
