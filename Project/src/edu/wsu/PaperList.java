@@ -1,7 +1,5 @@
 package edu.wsu;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -91,7 +89,7 @@ public class PaperList extends HttpServlet {
                             "groupAuthorFields",
                             fieldHtmlToSqlAuthor) + ")");
                 }
-            } catch (ValueException e) {
+            } catch (Exception e) {
                 System.out.println(e);
             }
 
@@ -130,7 +128,7 @@ public class PaperList extends HttpServlet {
                             "groupReviewerFields",
                             fieldHtmlToSqlReviewer);
                 }
-            } catch (ValueException e) {
+            } catch (Exception e) {
                     System.out.println(e);
                     return "";
                 }
@@ -146,7 +144,7 @@ public class PaperList extends HttpServlet {
                         "paperToSearch",
                         "groupPaperFields",
                         fieldHtmlToSqlPaper);
-            } catch (ValueException e) {
+            } catch (Exception e) {
                 System.out.println(e);
                 return "";
             }
@@ -158,7 +156,7 @@ public class PaperList extends HttpServlet {
     private static String buildFieldSearchSql(HttpServletRequest req,
                                               String toSearchName,
                                               String groupFieldsName,
-                                              Map<String, String> htmlToSql) throws ValueException {
+                                              Map<String, String> htmlToSql) throws Exception {
         return buildFieldSearchSql(req, toSearchName, groupFieldsName, htmlToSql, false);
     }
 
@@ -166,16 +164,16 @@ public class PaperList extends HttpServlet {
                                               String toSearchName,
                                               String groupFieldsName,
                                               Map<String, String> htmlToSql,
-                                              Boolean exact) throws ValueException {
+                                              Boolean exact) throws Exception {
         String searchInfo = req.getParameter(toSearchName).trim().toLowerCase()
                 ;
         ArrayList<String> columnToSearch = new ArrayList<>();
         String[] fieldsToSearch = req.getParameterValues(groupFieldsName);
         if (fieldsToSearch == null || fieldsToSearch.length == 0) {
-            throw new ValueException("No argument selected.");
+            throw new Exception("No argument selected.");
         }
         if (searchInfo.isEmpty()) {
-            throw new ValueException("Nothing to search");
+            throw new Exception("Nothing to search");
         }
         String preCompString;
         String postCompString;
