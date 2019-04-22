@@ -39,28 +39,28 @@
                         Class.forName("com.mysql.jdbc.Driver");
                         String url = "jdbc:mysql://localhost:3306/sampledb";
 
-                        Connection conn = DriverManager.getConnection(url,"root","pass1234");
+                        Connection conn = DriverManager.getConnection(url,"john","pass1234");
 
                         Statement stmt = conn.createStatement();
 
                         ResultSet rs;
 
-                        rs = stmt.executeQuery("SELECT * FROM review");
+                        rs = stmt.executeQuery("SELECT * FROM reports");
 
                         while ( rs.next() ) { %>
                 <form action="${pageContext.request.contextPath}/updateReview" method="post">
                     <tr><td><input type="text" name="reportid" readonly="readonly" value="<%=rs.getString("reportid") %>"></td>
 
-                        <td><input type="text" name="sdate" value="<%=rs.getString("sdate") %>"></td>
+                        <td><input type="text" name="sdate" value="<%=rs.getString("submission_date") %>"></td>
 
-                        <td><input type="text" name="comm" value="<%=rs.getString("comm") %>"></td>
+                        <td><input type="text" name="comm" value="<%=rs.getString("comment") %>"></td>
 
                         <td><input type="text" name="recommendation" value="<%=rs.getString("recommendation") %>"></td>
 
-                        <td><input type="text" name="paperid" readonly="readonly" value="<%=rs.getString("paperid") %>"></td>
+                        <td><input type="text" name="paperid" readonly="readonly" value="<%=rs.getString("paper_id") %>"></td>
 
 
-                        <td><input type="text" name="memberid" readonly="readonly" value="<%=rs.getString("memberid") %>"></td>
+                        <td><input type="text" name="memberid" readonly="readonly" value="<%=rs.getString("pc_member_id") %>"></td>
 
                         <td><input type="submit" name="update" value="Update"/>
 

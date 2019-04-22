@@ -32,17 +32,17 @@
                     try {
                         Class.forName("com.mysql.jdbc.Driver");
                         String url = "jdbc:mysql://localhost:3306/sampledb";
-                        Connection conn = DriverManager.getConnection(url,"root","pass1234");
+                        Connection conn = DriverManager.getConnection(url,"john","pass1234");
                         Statement stmt = conn.createStatement();
                         ResultSet rs;
-                        rs = stmt.executeQuery("SELECT * FROM pcmember");
+                        rs = stmt.executeQuery("SELECT * FROM pc_members");
                         while ( rs.next() ) { %>
 
-                <form action="${pageContext.request.contextPath}/updatePCMember" method="post">
+                <form action="${pageContext.request.contextPath}/updatepcmember" method="post">
                     <tr>
-                        <td><input type="text" name="memberid" readonly="readonly" value="<%=rs.getString("memberid") %>"></td>
                         <td><input type="text" name="email" value="<%=rs.getString("email") %>"></td>
-                        <td><input type="text" name="name" value="<%=rs.getString("name") %>"></td>
+                        <td><input type="text" name="first_name" value="<%=rs.getString("first_name") %>"></td>
+                        <td><input type="text" name="last_name" value="<%=rs.getString("last_name") %>"></td>
                         <td><input type="submit" name="update" value="Update"/>
                             <input type="submit" name="delete" value="Delete"/>
                         </td>
@@ -53,7 +53,7 @@
                 %>
             </table>
         <br>
-            <form action="${pageContext.request.contextPath}/updatePCMember" method="post">
+            <form action="${pageContext.request.contextPath}/updatepcmember" method="post">
                 <tr>
                     <td><input type="text" name="emailX" placeholder="Email"></td>
                     <td><input type="text" name="nameX" placeholder="Name"></td>

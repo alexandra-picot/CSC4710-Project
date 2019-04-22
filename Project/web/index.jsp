@@ -19,5 +19,13 @@
         <form action="initialize-db">
             <button type="submit" class="btn btn-primary">Initialize Database</button>
         </form>
+
+        <form action="UpdatePcMember.jsp">
+            <button type="submit" class="btn btn-primary">PC Members</button>
+        </form>
+
+        <form action="UpdateReviewReports.jsp">
+            <button type="submit" class="btn btn-primary">Reports</button>
+        </form>
     </jsp:body>
 </t:base_site>

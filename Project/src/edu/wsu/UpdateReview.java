@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/updateReview")
-
 public class UpdateReview extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
@@ -63,6 +62,6 @@ public class UpdateReview extends HttpServlet
             int z = c.insertReview(sdateX,commX,recommendationX, paperidX,memberidX);
             System.out.print(z);
         }
-        request.getRequestDispatcher("updateReview.jsp").forward(request, response);
+        request.getRequestDispatcher("UpdateReviewReports.jsp").forward(request, response);
     }
 }

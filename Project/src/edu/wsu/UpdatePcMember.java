@@ -61,7 +61,7 @@ public class UpdatePcMember extends HttpServlet
 
         }
 
-        request.getRequestDispatcher("updatePCMember.jsp").forward(request, response);
+        request.getRequestDispatcher("UpdatePcMember.jsp").forward(request, response);
 
     }
 
